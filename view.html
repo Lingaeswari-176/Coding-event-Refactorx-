@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RefactorX Submissions</title>
+
+<style>
+body{
+    font-family: Arial;
+    margin:40px;
+}
+
+pre{
+    background:#0d1117;
+    color:#e6edf3;
+    padding:15px;
+    border-radius:8px;
+    overflow-x:auto;
+}
+
+.team{
+    margin-bottom:40px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>RefactorX Submissions</h1>
+
+{% for r in rows %}
+
+<div class="team">
+
+<h2>Team: {{ r[0] }}</h2>
+
+<h3>Question 1</h3>
+<pre>{{ r[1] }}</pre>
+
+<h3>Question 2</h3>
+<pre>{{ r[2] }}</pre>
+
+<h3>Question 3</h3>
+<pre>{{ r[3] }}</pre>
+
+<p><b>Submitted at:</b> {{ r[4] }}</p>
+
+</div>
+
+<hr>
+
+{% endfor %}
+
+</body>
+</html>
