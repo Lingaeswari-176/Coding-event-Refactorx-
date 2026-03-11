@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import sqlite3
 
@@ -8,6 +8,9 @@ CORS(app)
 DATABASE = "submissions.db"
 
 
+# -----------------------------
+# Initialize Database
+# -----------------------------
 def init_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
@@ -30,11 +33,17 @@ def init_db():
 init_db()
 
 
+# -----------------------------
+# Home Route
+# -----------------------------
 @app.route("/")
 def home():
     return "RefactorX Backend Running"
 
 
+# -----------------------------
+# Submit Answers
+# -----------------------------
 @app.route("/submit", methods=["POST"])
 def submit():
 
@@ -59,6 +68,9 @@ def submit():
     return jsonify({"status": "saved"})
 
 
+# -----------------------------
+# JSON API (for frontend)
+# -----------------------------
 @app.route("/submissions")
 def submissions():
 
@@ -85,5 +97,25 @@ def submissions():
     return jsonify(result)
 
 
+# -----------------------------
+# Formatted Admin View
+# -----------------------------
+@app.route("/view")
+def view():
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT team_name,q1,q2,q3,timestamp FROM submissions")
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return render_template("view.html", rows=rows)
+
+
+# -----------------------------
+# Run Server
+# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
