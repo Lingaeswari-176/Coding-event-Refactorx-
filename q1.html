@@ -1,101 +1,89 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>RefactorX - Round 1</title>
 
-<style>
+<!-- Pyodide Python Engine -->
+<script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
 body{
-    font-family: Arial, sans-serif;
-    background-color:#f4f6f9;
-    margin:0;
-    padding:20px;
+font-family: Arial, sans-serif;
+background-color:#f4f6f9;
+margin:0;
+padding:20px;
 }
 
 .page{
-    max-width:900px;
-    margin:auto;
+max-width:900px;
+margin:auto;
 }
 
 .problem-box{
-    background:white;
-    padding:20px;
-    border-radius:8px;
-    box-shadow:0px 0px 10px rgba(0,0,0,0.1);
-    margin-bottom:25px;
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0px 0px 10px rgba(0,0,0,0.1);
+margin-bottom:25px;
 }
 
 pre{
-    background:#272822;
-    color:#f8f8f2;
-    padding:15px;
-    border-radius:5px;
-    overflow-x:auto;
+background:#272822;
+color:#f8f8f2;
+padding:15px;
+border-radius:5px;
+overflow-x:auto;
 }
 
 textarea{
-    width:100%;
-    height:150px;
-    margin-top:10px;
-    font-family:monospace;
-    font-size:14px;
-    padding:10px;
-    border-radius:5px;
-    border:1px solid #ccc;
-}
-
-.actions{
-    margin-top:20px;
+width:100%;
+height:150px;
+margin-top:10px;
+font-family:monospace;
+font-size:14px;
+padding:10px;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-    padding:10px 15px;
-    margin-right:10px;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    font-weight:bold;
+padding:10px 15px;
+margin-right:10px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.runBtn{
+background:#9b59b6;
+color:white;
 }
 
 #submitBtn{
-    background-color:#3498db;
-    color:white;
-}
-
-#nextBtn{
-    background-color:#2ecc71;
-    color:white;
-}
-
-button:disabled{
-    background-color:grey;
-    cursor:not-allowed;
+background-color:#3498db;
+color:white;
 }
 
 .timer{
-    font-weight:bold;
-    color:red;
+font-weight:bold;
+color:red;
 }
 
-#timeUpOverlay{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.85);
-    color:white;
-    font-size:2em;
-    align-items:center;
-    justify-content:center;
-    z-index:1000;
+#output{
+background:#111;
+color:#0f0;
+padding:10px;
+margin-top:10px;
+border-radius:5px;
+min-height:50px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -104,9 +92,7 @@ button:disabled{
 
 <h2>RefactorX – Round 1</h2>
 
-<p>
-Refactor the given Python code into <b>10 lines or less</b> without changing the output.
-</p>
+<p>Refactor the code into <b>10 lines or less</b>.</p>
 
 <p><b>Time Remaining:</b>
 <span id="timer" class="timer">20m 00s</span>
@@ -154,9 +140,9 @@ for num in numbers:
 print(second)
 </pre>
 
-<p><b>Expected Output:</b> Second largest number</p>
+<textarea id="q1"></textarea>
 
-<textarea placeholder="Write your refactored Python code here..."></textarea>
+<button class="runBtn" onclick="runCode('q1')">Run Code</button>
 
 </div>
 
@@ -188,9 +174,9 @@ while i < len(text):
 print(count)
 </pre>
 
-<p><b>Expected Output:</b> Number of vowels</p>
+<textarea id="q2"></textarea>
 
-<textarea placeholder="Write your refactored Python code here..."></textarea>
+<button class="runBtn" onclick="runCode('q2')">Run Code</button>
 
 </div>
 
@@ -228,133 +214,93 @@ for word in words:
 print(result)
 </pre>
 
-<p><b>Expected Output:</b> Most frequent word</p>
+<textarea id="q3"></textarea>
 
-<textarea placeholder="Write your refactored Python code here..."></textarea>
-
-</div>
-
-<div class="actions">
-
-<button id="submitBtn" onclick="submitEasy()">Submit Code</button>
-
-<button id="nextBtn" onclick="confirmEasy()">Next Round</button>
+<button class="runBtn" onclick="runCode('q3')">Run Code</button>
 
 </div>
 
-</div>
+<h3>Output</h3>
+<pre id="output"></pre>
 
-<div id="timeUpOverlay">
-⏰ Time's Up!
+<button id="submitBtn" onclick="submitCode()">Submit Code</button>
+
 </div>
 
 <script>
 
-window.onload=function(){
-enterFullScreen();
-startTimer(20);
+let pyodide;
+
+async function loadPython(){
+pyodide = await loadPyodide();
+console.log("Python Ready");
 }
 
-/* Fullscreen */
+loadPython();
 
-function enterFullScreen(){
-if(document.documentElement.requestFullscreen){
-document.documentElement.requestFullscreen();
+async function runCode(id){
+
+let code = document.getElementById(id).value;
+
+try{
+
+let result = await pyodide.runPythonAsync(code);
+
+document.getElementById("output").innerText =
+result === undefined ? "Program Executed" : result;
+
 }
+catch(err){
+
+document.getElementById("output").innerText = err;
+
 }
 
-/* Detect Tab Switch */
-
-document.addEventListener("visibilitychange",function(){
-if(document.hidden){
-alert("⚠ Tab switching detected!");
 }
-});
 
-/* Disable Right Click */
+/* Supabase Setup */
 
-document.addEventListener("contextmenu",function(e){
-e.preventDefault();
-});
+const supabase = supabase.createClient(
+"https://uziujuuyuaylhqokqdup.supabase.co",
+"sb_publishable_f2XDVfhDnZkyZu233BC8og_IJkmlqre"
+);
 
-/* Disable Copy */
-
-document.addEventListener("copy",function(e){
-e.preventDefault();
-});
-
-/* Submit */
-
-function submitEasy(){
+async function submitCode(){
 
 let team = prompt("Enter Team Name")
 
-let q1 = document.getElementsByTagName("textarea")[0].value
-let q2 = document.getElementsByTagName("textarea")[1].value
-let q3 = document.getElementsByTagName("textarea")[2].value
+let q1 = document.getElementById("q1").value
+let q2 = document.getElementById("q2").value
+let q3 = document.getElementById("q3").value
 
-fetch("https://coding-event-refactorx.onrender.com/submit",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
+const { data, error } = await supabase
+.from("submissions")
+.insert([
+{
 team_name:team,
 q1:q1,
 q2:q2,
-q3:q3
-})
-
-})
-
-.then(res=>res.json())
-.then(data=>{
-alert("Submission Saved")
-})
-
+q3:q3,
+timestamp:new Date().toLocaleString()
 }
-/* Next Button */
+])
 
-function confirmEasy(){
-
-let submitted=localStorage.getItem("easySubmitted");
-
-if(submitted==="yes"){
-
-alert("Round 1 completed! Round 2 unlocked.");
-
-localStorage.setItem("easyDone","yes");
-
-window.location.href="q2.html";
-
+if(error){
+alert("Submission Failed")
 }
-
 else{
-
-alert("⚠ Please submit your code before moving forward!");
-
+alert("Submission Saved")
 }
 
 }
 
-/* Persistent Timer */
+/* Timer */
 
 function startTimer(minutes){
 
 const timerDisplay=document.getElementById("timer");
 
-let endTime=localStorage.getItem("endTime");
-
-if(!endTime){
-
-endTime=Date.now()+minutes*60*1000;
-
-localStorage.setItem("endTime",endTime);
-
-}
+let endTime=Date.now()+minutes*60*1000;
 
 const countdown=setInterval(function(){
 
@@ -365,13 +311,6 @@ if(remaining<=0){
 clearInterval(countdown);
 
 timerDisplay.textContent="Time Over!";
-
-document.getElementById("timeUpOverlay").style.display="flex";
-
-document.getElementById("submitBtn").disabled=true;
-document.getElementById("nextBtn").disabled=true;
-
-localStorage.removeItem("endTime");
 
 return;
 
@@ -388,6 +327,8 @@ timerDisplay.textContent=mins+"m "+secs+"s";
 
 },1000);
 }
+
+startTimer(20)
 
 </script>
 
