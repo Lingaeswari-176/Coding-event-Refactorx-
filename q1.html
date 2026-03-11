@@ -287,9 +287,34 @@ e.preventDefault();
 
 function submitEasy(){
 
-window.open("https://forms.gle/yfE7m8bz8CfhAYGSA","_blank");
+let team = prompt("Enter Team Name")
 
-localStorage.setItem("easySubmitted","yes");
+let q1 = document.getElementsByTagName("textarea")[0].value
+let q2 = document.getElementsByTagName("textarea")[1].value
+let q3 = document.getElementsByTagName("textarea")[2].value
+
+fetch("https://refactorx-backend.onrender.com/submit",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+team_name:team,
+q1:q1,
+q2:q2,
+q3:q3
+})
+
+})
+
+.then(res=>res.json())
+.then(data=>{
+alert("Submission Saved")
+})
+
 }
 
 /* Next Button */
