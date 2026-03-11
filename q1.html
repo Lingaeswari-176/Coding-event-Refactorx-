@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Code Relay - Question 1</title>
+<title>RefactorX - Round 1</title>
 
 <style>
 
@@ -23,6 +24,7 @@ body{
     padding:20px;
     border-radius:8px;
     box-shadow:0px 0px 10px rgba(0,0,0,0.1);
+    margin-bottom:25px;
 }
 
 pre{
@@ -31,6 +33,17 @@ pre{
     padding:15px;
     border-radius:5px;
     overflow-x:auto;
+}
+
+textarea{
+    width:100%;
+    height:150px;
+    margin-top:10px;
+    font-family:monospace;
+    font-size:14px;
+    padding:10px;
+    border-radius:5px;
+    border:1px solid #ccc;
 }
 
 .actions{
@@ -82,60 +95,153 @@ button:disabled{
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="page">
 
-<div class="problem-box">
+<h2>RefactorX – Round 1</h2>
 
-<h2>Question 1 – Easy</h2>
-
-<p><b>Problem:</b> Refactor the following code to make it more readable and efficient without changing its output.</p>
-
-<pre>
-def longestCommonPrefix(strs):
-    if len(strs) == 0:
-        return ""
-
-    prefix = strs[0]
-
-    for i in range(1, len(strs)):
-        temp = ""
-        j = 0
-        while j < len(prefix) and j < len(strs[i]):
-            if prefix[j] == strs[i][j]:
-                temp = temp + prefix[j]
-            else:
-                break
-            j = j + 1
-        prefix = temp
-
-    return prefix
-
-
-strings = ["flower", "flow", "flight"]
-result = longestCommonPrefix(strings)
-print(result)
-</pre>
-
-<p><b>Expected Output:</b></p>
-<pre>fl</pre>
+<p>
+Refactor the given Python code into <b>10 lines or less</b> without changing the output.
+</p>
 
 <p><b>Time Remaining:</b>
 <span id="timer" class="timer">20m 00s</span>
 </p>
 
+<!-- Question 1 -->
+
+<div class="problem-box">
+
+<h3>Question 1 – Second Largest Number</h3>
+
+<pre>
+n = int(input())
+
+numbers = []
+
+i = 0
+
+while i < n:
+    
+    value = int(input())
+    
+    numbers.append(value)
+    
+    i = i + 1
+
+largest = numbers[0]
+
+for num in numbers:
+    
+    if num > largest:
+        
+        largest = num
+
+second = None
+
+for num in numbers:
+    
+    if num != largest:
+        
+        if second is None or num > second:
+            
+            second = num
+
+print(second)
+</pre>
+
+<p><b>Expected Output:</b> Second largest number</p>
+
+<textarea placeholder="Write your refactored Python code here..."></textarea>
+
+</div>
+
+<!-- Question 2 -->
+
+<div class="problem-box">
+
+<h3>Question 2 – Count Vowels</h3>
+
+<pre>
+text = input()
+
+count = 0
+
+vowels = ['a','e','i','o','u','A','E','I','O','U']
+
+i = 0
+
+while i < len(text):
+    
+    ch = text[i]
+    
+    if ch in vowels:
+        
+        count = count + 1
+    
+    i = i + 1
+
+print(count)
+</pre>
+
+<p><b>Expected Output:</b> Number of vowels</p>
+
+<textarea placeholder="Write your refactored Python code here..."></textarea>
+
+</div>
+
+<!-- Question 3 -->
+
+<div class="problem-box">
+
+<h3>Question 3 – Most Frequent Word</h3>
+
+<pre>
+sentence = input()
+
+words = sentence.split()
+
+max_count = 0
+
+result = ""
+
+for word in words:
+    
+    count = 0
+    
+    for w in words:
+        
+        if w == word:
+            
+            count = count + 1
+    
+    if count > max_count:
+        
+        max_count = count
+        
+        result = word
+
+print(result)
+</pre>
+
+<p><b>Expected Output:</b> Most frequent word</p>
+
+<textarea placeholder="Write your refactored Python code here..."></textarea>
+
+</div>
+
 <div class="actions">
 
 <button id="submitBtn" onclick="submitEasy()">Submit Code</button>
 
-<button id="nextBtn" onclick="confirmEasy()">Next Challenge</button>
+<button id="nextBtn" onclick="confirmEasy()">Next Round</button>
 
 </div>
 
-</div>
 </div>
 
 <div id="timeUpOverlay">
@@ -144,68 +250,69 @@ print(result)
 
 <script>
 
-/* Auto Start */
-
-window.onload = function(){
-    enterFullScreen();
-    startTimer(20);
+window.onload=function(){
+enterFullScreen();
+startTimer(20);
 }
 
 /* Fullscreen */
 
 function enterFullScreen(){
-    if(document.documentElement.requestFullscreen){
-        document.documentElement.requestFullscreen();
-    }
+if(document.documentElement.requestFullscreen){
+document.documentElement.requestFullscreen();
+}
 }
 
 /* Detect Tab Switch */
 
 document.addEventListener("visibilitychange",function(){
-    if(document.hidden){
-        alert("⚠ Tab switching detected!");
-    }
+if(document.hidden){
+alert("⚠ Tab switching detected!");
+}
 });
 
 /* Disable Right Click */
 
 document.addEventListener("contextmenu",function(e){
-    e.preventDefault();
+e.preventDefault();
 });
 
 /* Disable Copy */
 
 document.addEventListener("copy",function(e){
-    e.preventDefault();
+e.preventDefault();
 });
 
 /* Submit */
 
 function submitEasy(){
 
-    window.open("https://forms.gle/yfE7m8bz8CfhAYGSA","_blank");
+window.open("https://forms.gle/yfE7m8bz8CfhAYGSA","_blank");
 
-    localStorage.setItem("easySubmitted","yes");
+localStorage.setItem("easySubmitted","yes");
 }
 
 /* Next Button */
 
 function confirmEasy(){
 
-    let submitted = localStorage.getItem("easySubmitted");
+let submitted=localStorage.getItem("easySubmitted");
 
-    if(submitted === "yes"){
+if(submitted==="yes"){
 
-        alert("Level 1 completed! Level 2 unlocked.");
+alert("Round 1 completed! Round 2 unlocked.");
 
-        localStorage.setItem("easyDone","yes");
+localStorage.setItem("easyDone","yes");
 
-        window.location.href="q2.html";
-    }
+window.location.href="q2.html";
 
-    else{
-        alert("⚠ Please submit your code before moving forward!");
-    }
+}
+
+else{
+
+alert("⚠ Please submit your code before moving forward!");
+
+}
 
 }
 
@@ -213,45 +320,49 @@ function confirmEasy(){
 
 function startTimer(minutes){
 
-    const timerDisplay = document.getElementById("timer");
+const timerDisplay=document.getElementById("timer");
 
-    let endTime = localStorage.getItem("endTime");
+let endTime=localStorage.getItem("endTime");
 
-    if(!endTime){
-        endTime = Date.now() + minutes * 60 * 1000;
-        localStorage.setItem("endTime", endTime);
-    }
+if(!endTime){
 
-    const countdown = setInterval(function(){
+endTime=Date.now()+minutes*60*1000;
 
-        let remaining = endTime - Date.now();
+localStorage.setItem("endTime",endTime);
 
-        if(remaining <= 0){
+}
 
-            clearInterval(countdown);
+const countdown=setInterval(function(){
 
-            timerDisplay.textContent = "Time Over!";
+let remaining=endTime-Date.now();
 
-            document.getElementById("timeUpOverlay").style.display = "flex";
+if(remaining<=0){
 
-            document.getElementById("submitBtn").disabled = true;
-            document.getElementById("nextBtn").disabled = true;
+clearInterval(countdown);
 
-            localStorage.removeItem("endTime");
+timerDisplay.textContent="Time Over!";
 
-            return;
-        }
+document.getElementById("timeUpOverlay").style.display="flex";
 
-        let mins = Math.floor(remaining / 60000);
-        let secs = Math.floor((remaining % 60000) / 1000);
+document.getElementById("submitBtn").disabled=true;
+document.getElementById("nextBtn").disabled=true;
 
-        if(secs < 10){
-            secs = "0" + secs;
-        }
+localStorage.removeItem("endTime");
 
-        timerDisplay.textContent = mins + "m " + secs + "s";
+return;
 
-    },1000);
+}
+
+let mins=Math.floor(remaining/60000);
+let secs=Math.floor((remaining%60000)/1000);
+
+if(secs<10){
+secs="0"+secs;
+}
+
+timerDisplay.textContent=mins+"m "+secs+"s";
+
+},1000);
 }
 
 </script>
