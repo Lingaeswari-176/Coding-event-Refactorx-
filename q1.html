@@ -5,16 +5,16 @@
 <meta charset="UTF-8">
 <title>RefactorX - Round 1</title>
 
-<!-- PYTHON ENGINE -->
+<!-- Python Engine -->
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
-<!-- SUPABASE -->
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
 
 body{
-font-family:Arial;
+font-family: Arial;
 background:#f4f6f9;
 margin:0;
 padding:20px;
@@ -74,13 +74,13 @@ color:red;
 font-size:18px;
 }
 
-#output{
+.output{
 background:#111;
 color:#0f0;
 padding:10px;
 margin-top:10px;
 border-radius:5px;
-min-height:60px;
+min-height:50px;
 }
 
 </style>
@@ -97,7 +97,7 @@ min-height:60px;
 <span id="timer" class="timer">20:00</span>
 </p>
 
-<!-- Q1 -->
+<!-- Question 1 -->
 
 <div class="problem-box">
 
@@ -108,22 +108,22 @@ n = int(input())
 numbers = []
 i = 0
 while i < n:
-    value = int(input())
-    numbers.append(value)
-    i = i + 1
+ value = int(input())
+ numbers.append(value)
+ i = i + 1
 
 largest = numbers[0]
 
 for num in numbers:
-    if num > largest:
-        largest = num
+ if num > largest:
+  largest = num
 
 second = None
 
 for num in numbers:
-    if num != largest:
-        if second is None or num > second:
-            second = num
+ if num != largest:
+  if second is None or num > second:
+   second = num
 
 print(second)
 </pre>
@@ -131,9 +131,11 @@ print(second)
 <textarea id="q1"></textarea>
 <button class="runBtn" onclick="runCode('q1')">Run Code</button>
 
+<div id="q1_output" class="output"></div>
+
 </div>
 
-<!-- Q2 -->
+<!-- Question 2 -->
 
 <div class="problem-box">
 
@@ -141,16 +143,18 @@ print(second)
 
 <pre>
 text = input()
+
 count = 0
+
 vowels = ['a','e','i','o','u','A','E','I','O','U']
 
 i = 0
 
 while i < len(text):
-    ch = text[i]
-    if ch in vowels:
-        count = count + 1
-    i = i + 1
+ ch = text[i]
+ if ch in vowels:
+  count = count + 1
+ i = i + 1
 
 print(count)
 </pre>
@@ -158,9 +162,11 @@ print(count)
 <textarea id="q2"></textarea>
 <button class="runBtn" onclick="runCode('q2')">Run Code</button>
 
+<div id="q2_output" class="output"></div>
+
 </div>
 
-<!-- Q3 -->
+<!-- Question 3 -->
 
 <div class="problem-box">
 
@@ -175,14 +181,14 @@ max_count = 0
 result = ""
 
 for word in words:
-    count = 0
-    for w in words:
-        if w == word:
-            count = count + 1
+ count = 0
+ for w in words:
+  if w == word:
+   count = count + 1
 
-    if count > max_count:
-        max_count = count
-        result = word
+ if count > max_count:
+  max_count = count
+  result = word
 
 print(result)
 </pre>
@@ -190,10 +196,9 @@ print(result)
 <textarea id="q3"></textarea>
 <button class="runBtn" onclick="runCode('q3')">Run Code</button>
 
-</div>
+<div id="q3_output" class="output"></div>
 
-<h3>Output</h3>
-<pre id="output"></pre>
+</div>
 
 <button id="submitBtn" onclick="submitCode()">Submit Round</button>
 
@@ -201,16 +206,18 @@ print(result)
 
 <script>
 
-/* PYTHON ENGINE */
+/* Python Engine */
 
 let pyodide;
 
 async function loadPython(){
 pyodide = await loadPyodide();
-console.log("Python Ready")
+console.log("Python Ready");
 }
 
 loadPython();
+
+/* Run Code */
 
 async function runCode(id){
 
@@ -218,28 +225,37 @@ let code = document.getElementById(id).value;
 
 try{
 
-let result = await pyodide.runPythonAsync(code);
+await pyodide.runPythonAsync(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+`)
 
-document.getElementById("output").innerText =
-result === undefined ? "Program Executed Successfully" : result
+await pyodide.runPythonAsync(code)
+
+let output = await pyodide.runPythonAsync(`
+sys.stdout.getvalue()
+`)
+
+document.getElementById(id+"_output").innerText = output
 
 }
 catch(err){
 
-document.getElementById("output").innerText = err
+document.getElementById(id+"_output").innerText = err
 
 }
 
 }
 
-/* SUPABASE SETUP */
+/* Supabase Setup */
 
 const supabaseClient = supabase.createClient(
 "https://uziujuuyuaylhqokqdup.supabase.co",
 "sb_publishable_f2XDVfhDnZkyZu233BC8og_IJkmlqre"
 );
 
-/* SUBMIT */
+/* Submit */
 
 async function submitCode(){
 
@@ -249,24 +265,25 @@ let q1 = document.getElementById("q1").value
 let q2 = document.getElementById("q2").value
 let q3 = document.getElementById("q3").value
 
-const { error } = await supabaseClient
+const { data, error } = await supabaseClient
 .from("submissions")
-.insert([{
+.insert([
+{
 team_name:team,
 q1:q1,
 q2:q2,
 q3:q3,
 timestamp:new Date().toLocaleString()
-}])
+}
+])
 
 if(error){
-console.log(error)
-alert("Submission Failed: " + error.message)
+
+alert("Submission Failed: "+error.message)
+
 }else{
 
 alert("Submission Saved")
-
-localStorage.removeItem("round1Start")
 
 window.location.href="q2.html"
 
@@ -274,78 +291,42 @@ window.location.href="q2.html"
 
 }
 
-/* TIMER WITH REFRESH PROTECTION */
+/* Timer */
 
-const duration = 20 * 60 * 1000
+function startTimer(minutes){
 
-let start = localStorage.getItem("round1Start")
+let time = minutes*60
 
-if(!start){
+const timer = setInterval(function(){
 
-start = Date.now()
-localStorage.setItem("round1Start",start)
+let m = Math.floor(time/60)
+let s = time%60
 
-}
+if(s<10) s="0"+s
 
-function updateTimer(){
+document.getElementById("timer").textContent =
+m+":"+s
 
-let now = Date.now()
+time--
 
-let remaining = duration - (now - start)
+if(time<0){
 
-if(remaining <= 0){
+clearInterval(timer)
 
-document.getElementById("timer").textContent="00:00"
-
-alert("Time Over - Auto Submit")
+alert("Time Over")
 
 submitCode()
 
-return
+}
+
+},1000)
 
 }
 
-let minutes = Math.floor(remaining/60000)
-let seconds = Math.floor((remaining%60000)/1000)
-
-if(seconds<10) seconds="0"+seconds
-
-document.getElementById("timer").textContent =
-minutes+":"+seconds
-
-}
-
-setInterval(updateTimer,1000)
-
-/* FULLSCREEN LOCK */
-
-document.body.requestFullscreen()
-
-document.addEventListener("fullscreenchange",function(){
-
-if(!document.fullscreenElement){
-
-alert("Fullscreen required!")
-
-document.body.requestFullscreen()
-
-}
-
-})
-
-/* TAB SWITCH WARNING */
-
-document.addEventListener("visibilitychange",function(){
-
-if(document.hidden){
-
-alert("Tab switching detected!")
-
-}
-
-})
+startTimer(20)
 
 </script>
 
 </body>
 </html>
+
