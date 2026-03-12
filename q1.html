@@ -260,9 +260,8 @@ timestamp:new Date().toLocaleString()
 }])
 
 if(error){
-
-alert("Submission Failed")
-
+console.log(error)
+alert("Submission Failed: " + error.message)
 }else{
 
 alert("Submission Saved")
