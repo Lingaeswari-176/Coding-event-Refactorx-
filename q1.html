@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
 <!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -66,6 +66,12 @@ color:white;
 #submitBtn{
 background:#3498db;
 color:white;
+}
+
+#nextBtn{
+background:#2ecc71;
+color:white;
+margin-left:10px;
 }
 
 .timer{
@@ -130,7 +136,6 @@ print(second)
 
 <textarea id="q1"></textarea>
 <button class="runBtn" onclick="runCode('q1')">Run Code</button>
-
 <div id="q1_output" class="output"></div>
 
 </div>
@@ -143,9 +148,7 @@ print(second)
 
 <pre>
 text = input()
-
 count = 0
-
 vowels = ['a','e','i','o','u','A','E','I','O','U']
 
 i = 0
@@ -161,7 +164,6 @@ print(count)
 
 <textarea id="q2"></textarea>
 <button class="runBtn" onclick="runCode('q2')">Run Code</button>
-
 <div id="q2_output" class="output"></div>
 
 </div>
@@ -174,7 +176,6 @@ print(count)
 
 <pre>
 sentence = input()
-
 words = sentence.split()
 
 max_count = 0
@@ -195,12 +196,15 @@ print(result)
 
 <textarea id="q3"></textarea>
 <button class="runBtn" onclick="runCode('q3')">Run Code</button>
-
 <div id="q3_output" class="output"></div>
 
 </div>
 
 <button id="submitBtn" onclick="submitCode()">Submit Round</button>
+
+<button id="nextBtn" onclick="goNext()" disabled>
+Next Round
+</button>
 
 </div>
 
@@ -287,9 +291,17 @@ alert("Submission Failed: "+error.message)
 
 alert("Submission Saved")
 
-window.location.href="q2.html"
+document.getElementById("nextBtn").disabled = false
 
 }
+
+}
+
+/* Next Round */
+
+function goNext(){
+
+window.location.href="q2.html"
 
 }
 
@@ -331,4 +343,4 @@ startTimer(20)
 
 </body>
 </html>
-
+```
