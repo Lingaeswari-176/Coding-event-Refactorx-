@@ -1,272 +1,320 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Code Relay - Question 2</title>
+<title>RefactorX - Final Round</title>
+
+<!-- Python Engine -->
+<script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    margin: 0;
-    padding: 20px;
+
+body{
+font-family: Arial;
+background:#f4f6f9;
+margin:0;
+padding:20px;
 }
 
-.page {
-    max-width: 900px;
-    margin: auto;
+.page{
+max-width:900px;
+margin:auto;
 }
 
-.problem-box {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    display: none; /* Hidden until access granted */
+.problem-box{
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+margin-bottom:25px;
 }
 
-pre {
-    background: #272822;
-    color: #f8f8f2;
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
+pre{
+background:#272822;
+color:#f8f8f2;
+padding:15px;
+border-radius:5px;
+overflow-x:auto;
 }
 
-.actions {
-    margin-top: 20px;
+textarea{
+width:100%;
+height:150px;
+margin-top:10px;
+font-family:monospace;
+padding:10px;
 }
 
-button {
-    padding: 10px 15px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+button{
+padding:10px 15px;
+margin-top:10px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+font-weight:bold;
 }
 
-#submitBtn {
-    background-color: #3498db;
-    color: white;
+.runBtn{
+background:#9b59b6;
+color:white;
 }
 
-#nextBtn {
-    background-color: #2ecc71;
-    color: white;
+#submitBtn{
+background:#3498db;
+color:white;
 }
 
-button:disabled {
-    background-color: grey;
-    cursor: not-allowed;
+.timer{
+font-weight:bold;
+color:red;
+font-size:18px;
 }
 
-.timer {
-    font-weight: bold;
-    color: red;
+.output{
+background:#111;
+color:#0f0;
+padding:10px;
+margin-top:10px;
+border-radius:5px;
+min-height:50px;
 }
 
-#timeUpOverlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    color: white;
-    font-size: 2em;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-/* Access Screen */
-#accessScreen {
-    text-align: center;
-    margin-top: 100px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- ACCESS SCREEN -->
-<div id="accessScreen">
-    <h2>🔐 Round 2 Access</h2>
-    <p>Enter Access Code to continue</p>
-    <input type="password" id="accessCode" placeholder="Enter Code">
-    <button onclick="verifyAccess()">Enter</button>
-</div>
-
 <div class="page">
-<div class="problem-box">
 
-<h2>Question 2 – Medium</h2>
-
-<p><b>Problem:</b> Refactor the following code to make it more readable and efficient without changing its output</p>
-
-<pre>
-def groupAnagrams(words):
-    result = []
-
-    for i in range(len(words)):
-        found = False
-        for j in range(len(result)):
-            a = list(words[i])
-            b = list(result[j][0])
-            a.sort()
-            b.sort()
-            if a == b:
-                result[j].append(words[i])
-                found = True
-                break
-
-        if not found:
-            result.append([words[i]])
-
-    return result
-
-words = ["eat", "tea", "tan", "ate", "nat", "bat"]
-print(groupAnagrams(words))
-</pre>
-
-<p><b>Expected Output:</b></p>
-<pre>[['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]</pre>
+<h2>RefactorX – Final Round</h2>
+<p>Refactor the code into <b>10 lines or less</b>.</p>
 
 <p><b>Time Remaining:</b>
-<span id="timer" class="timer">20m 00s</span>
+<span id="timer" class="timer">30:00</span>
 </p>
 
-<div class="actions">
-    <button id="submitBtn" onclick="submitMedium()">Submit Code</button>
-    <button id="nextBtn" onclick="confirmMedium()">Next Challenge</button>
-</div>
+<!-- Question 1 -->
+
+<div class="problem-box">
+
+<h3>Question 1 – Longest Substring Without Repeating Characters</h3>
+
+<pre>
+def longestSubstring(s):
+    max_len = 0
+
+    for i in range(len(s)):
+        temp = ""
+        for j in range(i, len(s)):
+            if s[j] in temp:
+                break
+            else:
+                temp = temp + s[j]
+                if len(temp) > max_len:
+                    max_len = len(temp)
+
+    return max_len
+
+
+text = "abcabcbb"
+print(longestSubstring(text))
+</pre>
+
+<textarea id="q1"></textarea>
+<button class="runBtn" onclick="runCode('q1')">Run Code</button>
+<div id="q1_output" class="output"></div>
 
 </div>
+
+<!-- Question 2 -->
+
+<div class="problem-box">
+
+<h3>Question 2 – Job Scheduling to Maximize Profit</h3>
+
+<pre>
+def schedule(jobs):
+    total = 0
+    maxd = 0
+
+    for i in range(len(jobs)):
+        if jobs[i][1] > maxd:
+            maxd = jobs[i][1]
+
+    slots = [-1] * maxd
+
+    for i in range(len(jobs)):
+        for j in range(i + 1, len(jobs)):
+            if jobs[i][2] < jobs[j][2]:
+                jobs[i], jobs[j] = jobs[j], jobs[i]
+
+    for i in range(len(jobs)):
+        d = jobs[i][1]
+        while d > 0:
+            if slots[d - 1] == -1:
+                slots[d - 1] = jobs[i][0]
+                total = total + jobs[i][2]
+                break
+            d = d - 1
+
+    return total
+
+
+jobs = [
+    ('A', 2, 100),
+    ('B', 1, 19),
+    ('C', 2, 27),
+    ('D', 1, 25),
+    ('E', 3, 15)
+]
+
+print(schedule(jobs))
+</pre>
+
+<textarea id="q2"></textarea>
+<button class="runBtn" onclick="runCode('q2')">Run Code</button>
+<div id="q2_output" class="output"></div>
+
 </div>
 
-<div id="timeUpOverlay">⏰ Time's Up!</div>
+<button id="submitBtn" onclick="submitCode()">Submit Final Round</button>
+
+</div>
 
 <script>
 
-/* 🔒 Must Complete Q1 */
-if (localStorage.getItem("easyDone") !== "yes") {
-    alert("❌ Please complete Question 1 first.");
-    window.location.href = "q1.html";
+/* Block direct access */
+
+if(localStorage.getItem("round1_complete")!="yes"){
+
+alert("Complete Round 1 first")
+window.location.href="q1.html"
+
 }
 
-/* 🔐 ACCESS CODE */
-const round2Code = "R2SELECT2026";   // CHANGE AFTER SELECTION
+/* Python Engine */
 
-function verifyAccess() {
-    const entered = document.getElementById("accessCode").value;
+let pyodide;
 
-    if (entered === round2Code) {
-        document.getElementById("accessScreen").style.display = "none";
-        document.querySelector(".problem-box").style.display = "block";
-
-        enterFullScreen();   // 🔥 FULL SCREEN
-        startTimer(20);      // ⏳ TIMER START
-    } else {
-        alert("❌ Invalid Access Code");
-    }
+async function loadPython(){
+pyodide = await loadPyodide();
 }
 
-/* 🔥 FULL SCREEN FUNCTION */
-function enterFullScreen() {
-    let elem = document.documentElement;
+loadPython();
 
-    if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-    }
+/* Run Code */
+
+async function runCode(id){
+
+let code=document.getElementById(id).value;
+
+try{
+
+await pyodide.runPythonAsync(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+`)
+
+await pyodide.runPythonAsync(code)
+
+let output=await pyodide.runPythonAsync(`
+sys.stdout.getvalue()
+`)
+
+document.getElementById(id+"_output").innerText=output
+
+}
+catch(err){
+
+document.getElementById(id+"_output").innerText=err
+
 }
 
-/* 🚨 Detect Tab Switch */
-document.addEventListener("visibilitychange", function () {
-    if (document.hidden) {
-        alert("⚠ Tab switching detected!");
-    }
-});
-
-/* 🚫 Disable Right Click */
-document.addEventListener("contextmenu", function (e) {
-    e.preventDefault();
-});
-
-/* 🚫 Disable Copy */
-document.addEventListener("copy", function (e) {
-    e.preventDefault();
-});
-
-/* 📤 SUBMIT */
-function submitMedium() {
-    window.open("https://forms.gle/NY3U15arxQfRU1dCA", "_blank");
-    localStorage.setItem("mediumSubmitted", "yes");
 }
 
-/* 🔓 NEXT BUTTON CONTROL */
-function confirmMedium() {
+/* Supabase Setup */
 
-    let submitted = localStorage.getItem("mediumSubmitted");
+const { createClient } = supabase;
 
-    if (submitted === "yes") {
-        alert("Level 2 completed! Level 3 unlocked.");
-        localStorage.setItem("mediumDone", "yes");
-        window.location.href = "q3.html";
-    } else {
-        alert("⚠ Please submit your code before moving forward!");
-    }
+const supabaseClient=createClient(
+"https://uziujuuyuaylhqokqdup.supabase.co",
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aXVqdXV5dWF5bGhxb2txZHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDUxNzcsImV4cCI6MjA4ODgyMTE3N30.jIkvmTnvO6TyTjaluE-DLQx336aGQQ6GFZCzB36ybBQ"
+);
+
+/* Submit */
+
+async function submitCode(){
+
+let team=prompt("Enter Team Name")
+
+let q1=document.getElementById("q1").value
+let q2=document.getElementById("q2").value
+
+const {data,error}=await supabaseClient
+.from("submissions_round2")
+.insert([
+{
+team_name:team,
+q1:q1,
+q2:q2,
+timestamp:new Date().toLocaleString()
+}
+])
+
+if(error){
+
+alert("Submission Failed: "+error.message)
+
+}else{
+
+alert("Final Round Submitted Successfully")
+
+alert("RefactorX Contest Over. Thank you for participating!")
+
 }
 
-/* Persistent Timer */
+}
+
+/* Timer */
 
 function startTimer(minutes){
 
-    const timerDisplay = document.getElementById("timer");
+let time=minutes*60
 
-    let endTime = localStorage.getItem("endTime");
+const timer=setInterval(function(){
 
-    if(!endTime){
-        endTime = Date.now() + minutes * 60 * 1000;
-        localStorage.setItem("endTime", endTime);
-    }
+let m=Math.floor(time/60)
+let s=time%60
 
-    const countdown = setInterval(function(){
+if(s<10) s="0"+s
 
-        let remaining = endTime - Date.now();
+document.getElementById("timer").textContent=m+":"+s
 
-        if(remaining <= 0){
+time--
 
-            clearInterval(countdown);
+if(time<0){
 
-            timerDisplay.textContent = "Time Over!";
+clearInterval(timer)
 
-            document.getElementById("timeUpOverlay").style.display = "flex";
+alert("Time Over")
 
-            document.getElementById("submitBtn").disabled = true;
-            document.getElementById("nextBtn").disabled = true;
+submitCode()
 
-            localStorage.removeItem("endTime");
-
-            return;
-        }
-
-        let mins = Math.floor(remaining / 60000);
-        let secs = Math.floor((remaining % 60000) / 1000);
-
-        if(secs < 10){
-            secs = "0" + secs;
-        }
-
-        timerDisplay.textContent = mins + "m " + secs + "s";
-
-    },1000);
 }
 
+},1000)
+
+}
+
+startTimer(30)
+
 </script>
-        
+
+</body>
+</html>
+
