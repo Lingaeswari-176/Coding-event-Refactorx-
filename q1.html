@@ -250,9 +250,11 @@ document.getElementById(id+"_output").innerText = err
 
 /* Supabase Setup */
 
-const supabaseClient = supabase.createClient(
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
 "https://uziujuuyuaylhqokqdup.supabase.co",
-"sb_publishable_f2XDVfhDnZkyZu233BC8og_IJkmlqre"
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aXVqdXV5dWF5bGhxb2txZHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDUxNzcsImV4cCI6MjA4ODgyMTE3N30.jIkvmTnvO6TyTjaluE-DLQx336aGQQ6GFZCzB36ybBQ"
 );
 
 /* Submit */
