@@ -1,101 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>RefactorX</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>RefactorX</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <div class="page">
-    <div class="main-container">
 
-      <h1>RefactorX</h1>
-      <p class="subtitle">Where messy code meets sharp minds</p>
+<div class="page">
+<div class="main-container">
 
-      <!-- MAIN CONTENT -->
-      <div class="content-box">
+<h1>RefactorX</h1>
+<p class="subtitle">Where messy code meets sharp minds</p>
 
-        <!-- QUESTIONS SECTION -->
-        <div class="questions-box">
-          <p><strong>Available Questions</strong></p>
-          <ul>
-            <li>
-              <a href="q1.html" class="q1">Question 1 – Easy</a>
-            </li>
+<!-- MAIN CONTENT -->
+<div class="content-box">
 
-            <li>
-              <a href="#" class="q2 locked" onclick="goQ2(event)">
-                🔒 Question 2 – Medium
-              </a>
-            </li>
+<!-- QUESTIONS SECTION -->
+<div class="questions-box">
+<p><strong>Available Rounds</strong></p>
 
-            <li>
-              <a href="#" class="q3 locked" onclick="goQ3(event)">
-                🔒 Question 3 – Hard
-              </a>
-            </li>
-          </ul>
-        </div>
+<ul>
 
-        <!-- GUIDELINES SECTION (HORIZONTAL BELOW) -->
-        <div class="guidelines-box">
-          <p><strong>📌 Event Guidelines</strong></p>
+<li>
+<a href="q1.html" class="q1">Round-1</a>
+</li>
 
-          <ul class="guidelines-list">
-            <li>Refactor the given code <strong>without changing the output</strong></li>
-            <li><strong>No Internet / AI / external help</strong></li>
-            <li>Only <strong>refactoring</strong> allowed</li>
-            <li>Use <strong>Python only</strong></li>
-            <li>Clean & optimized code will be rewarded</li>
-            <li>Rule violation → <strong>Disqualification</strong></li>
-          </ul>
+<li>
+<a href="#" class="q2 locked" onclick="goQ2(event)">
+🔒 Round-2
+</a>
+</li>
 
-          <p class="happy">Happy learning!</p>
-        </div>
+</ul>
+</div>
 
-      </div>
-    </div>
-  </div>
+<!-- GUIDELINES SECTION -->
+<div class="guidelines-box">
 
-  <!-- SCRIPT -->
-  <script>
-    function goQ2(event) {
-      if (localStorage.getItem("easyDone") === "yes") {
-        window.location.href = "q2.html";
-      } else {
-        event.preventDefault();
-        alert("❌ Complete Question 1 to unlock Question 2");
-      }
-    }
+<p><strong>📌 Event Guidelines</strong></p>
 
-    function goQ3(event) {
-      if (localStorage.getItem("mediumDone") === "yes") {
-        window.location.href = "q3.html";
-      } else {
-        event.preventDefault();
-        alert("❌ Complete Question 2 to unlock Question 3");
-      }
-    }
+<ul class="guidelines-list">
+<li>Refactor the given code <strong>without changing the output</strong></li>
+<li><strong>No Internet / AI / external help</strong></li>
+<li>Only <strong>refactoring</strong> allowed</li>
+<li>Use <strong>Python only</strong></li>
+<li>Clean & optimized code will be rewarded</li>
+<li>Rule violation → <strong>Disqualification</strong></li>
+</ul>
 
-    window.onload = function () {
-      if (localStorage.getItem("easyDone") === "yes") {
-        const q2 = document.querySelector(".q2");
-        q2.classList.remove("locked");
-        q2.textContent = "Question 2 – Medium";
-        q2.href = "q2.html";
-        q2.onclick = null;
-      }
+<p class="happy">Happy learning!</p>
 
-      if (localStorage.getItem("mediumDone") === "yes") {
-        const q3 = document.querySelector(".q3");
-        q3.classList.remove("locked");
-        q3.textContent = "Question 3 – Hard";
-        q3.href = "q3.html";
-        q3.onclick = null;
-      }
-    };
-  </script>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+
+function goQ2(event) {
+
+if (localStorage.getItem("easyDone") === "yes") {
+
+window.location.href = "q2.html";
+
+} else {
+
+event.preventDefault();
+alert("❌ Complete Round 1 to unlock Round 2");
+
+}
+
+}
+
+window.onload = function () {
+
+if (localStorage.getItem("easyDone") === "yes") {
+
+const q2 = document.querySelector(".q2");
+
+q2.classList.remove("locked");
+q2.textContent = "Round-2";
+q2.href = "q2.html";
+q2.onclick = null;
+
+}
+
+};
+
+</script>
 
 </body>
 </html>
