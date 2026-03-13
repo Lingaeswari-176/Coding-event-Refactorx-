@@ -1,86 +1,200 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>RefactorX - Final Round</title>
 
-<!-- Python Engine -->
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
+/* BODY */
+
 body{
-font-family: Arial;
-background:#f4f6f9;
 margin:0;
-padding:20px;
+font-family:"JetBrains Mono", monospace;
+
+background-image:
+linear-gradient(rgba(2,6,23,0.9),rgba(2,6,23,0.9)),
+url("IMG-20260130-WA0011.jpg");
+
+background-size:cover;
+background-position:center;
+
+color:#cbd5f5;
 }
+
+/* PAGE */
 
 .page{
-max-width:900px;
+max-width:950px;
 margin:auto;
+padding:30px;
 }
 
-.problem-box{
-background:white;
-padding:20px;
-border-radius:8px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-margin-bottom:25px;
+/* TITLE */
+
+h2{
+text-align:center;
+
+background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+-webkit-background-clip:text;
+color:transparent;
+
+text-shadow:
+0 0 15px #8b5cf6,
+0 0 30px #ec4899;
 }
 
-pre{
-background:#272822;
-color:#f8f8f2;
-padding:15px;
-border-radius:5px;
-overflow-x:auto;
-}
-
-textarea{
-width:100%;
-height:150px;
-margin-top:10px;
-font-family:monospace;
-padding:10px;
-}
-
-button{
-padding:10px 15px;
-margin-top:10px;
-border:none;
-border-radius:5px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.runBtn{
-background:#9b59b6;
-color:white;
-}
-
-#submitBtn{
-background:#3498db;
-color:white;
-}
+/* TIMER */
 
 .timer{
+font-size:20px;
+color:#ec4899;
 font-weight:bold;
-color:red;
-font-size:18px;
 }
 
-.output{
-background:#111;
-color:#0f0;
+/* BOX */
+
+.problem-box{
+
+background:rgba(15,23,42,0.8);
+
+border:1px solid #8b5cf6;
+
+padding:25px;
+border-radius:12px;
+
+margin-bottom:30px;
+
+box-shadow:
+0 0 20px rgba(139,92,246,0.4);
+}
+
+/* CODE */
+
+pre{
+
+background:#020617;
+
+color:#60a5fa;
+
+padding:15px;
+
+border-radius:8px;
+
+overflow-x:auto;
+
+border-left:4px solid #8b5cf6;
+
+}
+
+/* TEXTAREA */
+
+textarea{
+
+width:100%;
+height:150px;
+
+background:#020617;
+
+color:#e2e8f0;
+
+border:1px solid #8b5cf6;
+
+border-radius:6px;
+
 padding:10px;
+
+font-family:monospace;
+
 margin-top:10px;
+
+}
+
+/* BUTTON */
+
+button{
+
+background:transparent;
+
+border:1px solid #8b5cf6;
+
+color:white;
+
+padding:10px 18px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+margin-top:10px;
+
+}
+
+button:hover{
+
+background:#8b5cf6;
+
+box-shadow:
+0 0 15px #8b5cf6,
+0 0 25px #ec4899;
+
+}
+
+/* OUTPUT */
+
+.output{
+
+background:#020617;
+
+color:#22c55e;
+
+padding:10px;
+
 border-radius:5px;
-min-height:50px;
+
+margin-top:10px;
+
+min-height:40px;
+
+}
+
+/* ACCESS SCREEN */
+
+#accessBox{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:#020617;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+flex-direction:column;
+
+}
+
+#accessBox input{
+
+padding:10px;
+
+border-radius:6px;
+
+border:1px solid #8b5cf6;
+
+margin-top:10px;
+
 }
 
 </style>
@@ -88,32 +202,53 @@ min-height:50px;
 
 <body>
 
-<div class="page">
+<!-- ACCESS CODE SCREEN -->
+
+<div id="accessBox">
+
+<h2>Enter Round 2 Access Code</h2>
+
+<input id="accessInput" placeholder="Access Code">
+
+<button onclick="checkAccess()">Enter</button>
+
+<p id="accessMsg"></p>
+
+</div>
+
+<div class="page" id="mainPage" style="display:none">
 
 <h2>RefactorX – Final Round</h2>
+
 <p>Refactor the code into <b>10 lines or less</b>.</p>
 
-<p><b>Time Remaining:</b>
-<span id="timer" class="timer">30:00</span>
-</p>
+<p>Time Remaining: <span id="timer" class="timer">30:00</span></p>
 
-<!-- Question 1 -->
+<!-- QUESTION 1 -->
 
 <div class="problem-box">
 
-<h3>Question 1 – Longest Substring Without Repeating Characters</h3>
+<h3>Question 1 – Longest Substring</h3>
 
 <pre>
+# Longest Substring Without Repeating Characters
+
 def longestSubstring(s):
+
     max_len = 0
 
     for i in range(len(s)):
         temp = ""
+
         for j in range(i, len(s)):
+
             if s[j] in temp:
                 break
+
             else:
+
                 temp = temp + s[j]
+
                 if len(temp) > max_len:
                     max_len = len(temp)
 
@@ -121,23 +256,30 @@ def longestSubstring(s):
 
 
 text = "abcabcbb"
+
 print(longestSubstring(text))
 </pre>
 
 <textarea id="q1"></textarea>
-<button class="runBtn" onclick="runCode('q1')">Run Code</button>
+
+<button onclick="runCode('q1')">Run Code</button>
+
 <div id="q1_output" class="output"></div>
 
 </div>
 
-<!-- Question 2 -->
+<!-- QUESTION 2 -->
 
 <div class="problem-box">
 
-<h3>Question 2 – Job Scheduling to Maximize Profit</h3>
+<h3>Question 2 – Job Scheduling Profit</h3>
 
 <pre>
+
+# Job Scheduling to Maximize Profit
+
 def schedule(jobs):
+
     total = 0
     maxd = 0
 
@@ -154,11 +296,17 @@ def schedule(jobs):
 
     for i in range(len(jobs)):
         d = jobs[i][1]
+
         while d > 0:
+
             if slots[d - 1] == -1:
+
                 slots[d - 1] = jobs[i][0]
+
                 total = total + jobs[i][2]
+
                 break
+
             d = d - 1
 
     return total
@@ -176,37 +324,54 @@ print(schedule(jobs))
 </pre>
 
 <textarea id="q2"></textarea>
-<button class="runBtn" onclick="runCode('q2')">Run Code</button>
+
+<button onclick="runCode('q2')">Run Code</button>
+
 <div id="q2_output" class="output"></div>
 
 </div>
 
-<button id="submitBtn" onclick="submitCode()">Submit Final Round</button>
+<button onclick="submitCode()">Submit Final Round</button>
 
 </div>
 
 <script>
 
-/* Block direct access */
+/* ACCESS CODE */
 
-if(localStorage.getItem("round1_complete")!="yes"){
+const ACCESS_CODE="REFX2026";
 
-alert("Complete Round 1 first")
-window.location.href="q1.html"
+function checkAccess(){
+
+let code=document.getElementById("accessInput").value;
+
+if(code===ACCESS_CODE){
+
+document.getElementById("accessBox").style.display="none"
+
+document.getElementById("mainPage").style.display="block"
+
+}else{
+
+document.getElementById("accessMsg").innerText="Wrong Code"
 
 }
 
-/* Python Engine */
+}
+
+/* PYTHON ENGINE */
 
 let pyodide;
 
 async function loadPython(){
-pyodide = await loadPyodide();
+
+pyodide=await loadPyodide();
+
 }
 
 loadPython();
 
-/* Run Code */
+/* RUN CODE */
 
 async function runCode(id){
 
@@ -228,8 +393,7 @@ sys.stdout.getvalue()
 
 document.getElementById(id+"_output").innerText=output
 
-}
-catch(err){
+}catch(err){
 
 document.getElementById(id+"_output").innerText=err
 
@@ -237,16 +401,24 @@ document.getElementById(id+"_output").innerText=err
 
 }
 
-/* Supabase Setup */
+/* AUTO CHECK */
+
+function checkAnswer(output,expected){
+
+return output.trim()==expected
+
+}
+
+/* SUPABASE */
 
 const { createClient } = supabase;
 
 const supabaseClient=createClient(
 "https://uziujuuyuaylhqokqdup.supabase.co",
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aXVqdXV5dWF5bGhxb2txZHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDUxNzcsImV4cCI6MjA4ODgyMTE3N30.jIkvmTnvO6TyTjaluE-DLQx336aGQQ6GFZCzB36ybBQ"
+"YOUR_SUPABASE_KEY"
 );
 
-/* Submit */
+/* SUBMIT */
 
 async function submitCode(){
 
@@ -255,32 +427,33 @@ let team=prompt("Enter Team Name")
 let q1=document.getElementById("q1").value
 let q2=document.getElementById("q2").value
 
-const {data,error}=await supabaseClient
+let out1=document.getElementById("q1_output").innerText
+let out2=document.getElementById("q2_output").innerText
+
+let correct1=checkAnswer(out1,"3")
+let correct2=checkAnswer(out2,"142")
+
+alert("Q1 "+(correct1?"Correct":"Wrong"))
+alert("Q2 "+(correct2?"Correct":"Wrong"))
+
+await supabaseClient
 .from("submissions_round2")
-.insert([
-{
+.insert([{
+
 team_name:team,
 q1:q1,
 q2:q2,
+q1_result:correct1,
+q2_result:correct2,
 timestamp:new Date().toLocaleString()
-}
-])
 
-if(error){
+}])
 
-alert("Submission Failed: "+error.message)
-
-}else{
-
-alert("Final Round Submitted Successfully")
-
-alert("RefactorX Contest Over. Thank you for participating!")
+alert("Submission Saved")
 
 }
 
-}
-
-/* Timer */
+/* TIMER */
 
 function startTimer(minutes){
 
@@ -317,4 +490,3 @@ startTimer(30)
 
 </body>
 </html>
-
