@@ -371,11 +371,18 @@ pyodide=await loadPyodide();
 
 loadPython();
 
+/* Expected Outputs */
+
+const expectedOutputs = {
+q1: "3",
+q2: "142"
+};
+
 /* RUN CODE */
 
 async function runCode(id){
 
-let code=document.getElementById(id).value;
+let code = document.getElementById(id).value;
 
 try{
 
@@ -387,27 +394,38 @@ sys.stdout = StringIO()
 
 await pyodide.runPythonAsync(code)
 
-let output=await pyodide.runPythonAsync(`
+let output = await pyodide.runPythonAsync(`
 sys.stdout.getvalue()
 `)
 
-document.getElementById(id+"_output").innerText=output
+output = output.trim()
+
+let box = document.getElementById(id+"_output")
+
+box.innerText = "Output: " + output
+
+/* CHECK ANSWER */
+
+if(output === expectedOutputs[id]){
+
+box.innerText += "\n\n✅ Correct Answer"
+box.dataset.result = "true"
+
+}else{
+
+box.innerText += "\n\n❌ Wrong Answer"
+box.dataset.result = "false"
+
+}
 
 }catch(err){
 
-document.getElementById(id+"_output").innerText=err
+document.getElementById(id+"_output").innerText = "Error:\n"+err
 
 }
 
 }
 
-/* AUTO CHECK */
-
-function checkAnswer(output,expected){
-
-return output.trim()==expected
-
-}
 
 /* SUPABASE */
 
@@ -430,8 +448,11 @@ let q2=document.getElementById("q2").value
 let out1=document.getElementById("q1_output").innerText
 let out2=document.getElementById("q2_output").innerText
 
-let correct1=document.getElementById("q1_output").dataset.result==="true"
-let correct2=document.getElementById("q2_output").dataset.result==="true"
+let correct1 =
+document.getElementById("q1_output").dataset.result === "true"
+
+let correct2 =
+document.getElementById("q2_output").dataset.result === "true"
 
 alert("Q1 "+(correct1?"Correct":"Wrong"))
 alert("Q2 "+(correct2?"Correct":"Wrong"))
