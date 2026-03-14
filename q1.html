@@ -217,8 +217,8 @@ border:1px solid #8b5cf6;
 <h3>Question 1 – Second Largest Number</h3>
 
 <pre>
-n = int(input())
-numbers = []
+n = 6
+numbers = [5,2,8,3,7]
 i = 0
 while i < n:
  value = int(input())
@@ -254,7 +254,7 @@ print(second)
 <h3>Question 2 – Count Vowels</h3>
 
 <pre>
-text = input()
+text = "programming"
 
 count = 0
 
@@ -284,22 +284,21 @@ print(count)
 <h3>Question 3 – Most Frequent Word</h3>
 
 <pre>
-sentence = input()
 
-words = sentence.split()
+words = "apple banana apple orange apple".split()
 
 max_count = 0
 result = ""
 
 for word in words:
- count = 0
- for w in words:
-  if w == word:
-   count = count + 1
+    count = 0
+    for w in words:
+        if w == word:
+            count = count + 1
 
- if count > max_count:
-  max_count = count
-  result = word
+    if count > max_count:
+        max_count = count
+        result = word
 
 print(result)
 </pre>
