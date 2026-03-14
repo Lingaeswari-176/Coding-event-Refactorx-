@@ -445,14 +445,14 @@ let team=prompt("Enter Team Name")
 let q1=document.getElementById("q1").value
 let q2=document.getElementById("q2").value
 
-let out1=document.getElementById("q1_output").innerText
-let out2=document.getElementById("q2_output").innerText
+let out1=document.getElementById("q1_result").innerText
+let out2=document.getElementById("q2_result").innerText
 
 let correct1 =
-document.getElementById("q1_output").dataset.result === "true"
+document.getElementById("q1_result").dataset.result === "true"
 
 let correct2 =
-document.getElementById("q2_output").dataset.result === "true"
+document.getElementById("q2_result").dataset.result === "true"
 
 alert("Q1 "+(correct1?"Correct":"Wrong"))
 alert("Q2 "+(correct2?"Correct":"Wrong"))
