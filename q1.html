@@ -329,38 +329,70 @@ pyodide = await loadPyodide();
 }
 
 loadPython();
+/* EXPECTED OUTPUTS */
 
-/* Run Code */
+const expected={
+q1:"7",
+q2:"3",
+q3:"apple"
+};
+
+
+/* FIXED INPUTS */
+
+const inputs={
+q1:"5\n2\n8\n3\n7",
+q2:"programming",
+q3:"apple banana apple orange apple"
+};
+
+/* RUN CODE */
 
 async function runCode(id){
 
-let code = document.getElementById(id).value;
+let code=document.getElementById(id).value;
 
 try{
 
 await pyodide.runPythonAsync(`
 import sys
 from io import StringIO
+sys.stdin = StringIO("${inputs[id]}")
 sys.stdout = StringIO()
 `)
 
 await pyodide.runPythonAsync(code)
 
-let output = await pyodide.runPythonAsync(`
+let output=await pyodide.runPythonAsync(`
 sys.stdout.getvalue()
 `)
 
-document.getElementById(id+"_output").innerText = output
+output=output.trim()
+
+let box=document.getElementById(id+"_output")
+
+box.innerText="Output: "+output
+if(output===expected[id]){
+
+box.innerText+="\n\n✅ Correct Answer"
+box.dataset.result="true"
+
+}else{
+
+box.innerText+="\n\n❌ Wrong Answer"
+box.dataset.result="false"
+
+}
 
 }
 catch(err){
 
-document.getElementById(id+"_output").innerText = err
+document.getElementById(id+"_output").innerText="Error:\n"+err
 
 }
 
 }
-
+ 
 /* Supabase Setup */
 
 const { createClient } = supabase;
@@ -374,27 +406,31 @@ const supabaseClient = createClient(
 
 async function submitCode(){
 
-let team = prompt("Enter Team Name")
+let team=prompt("Enter Team Name")
 
-let q1 = document.getElementById("q1").value
-let q2 = document.getElementById("q2").value
-let q3 = document.getElementById("q3").value
+let q1=document.getElementById("q1").value
+let q2=document.getElementById("q2").value
+let q3=document.getElementById("q3").value
 
-const { data, error } = await supabaseClient
+let q1c=document.getElementById("q1_output").dataset.result==="true"
+let q2c=document.getElementById("q2_output").dataset.result==="true"
+let q3c=document.getElementById("q3_output").dataset.result==="true"
+
+const { error } = await supabaseClient
 .from("submissions")
-.insert([
-{
+.insert([{
 team_name:team,
 q1:q1,
 q2:q2,
 q3:q3,
+q1_correct:q1c,
+q2_correct:q2c,
+q3_correct:q3c,
 timestamp:new Date().toLocaleString()
-}
-])
+}])
 
 if(error){
-
-alert("Submission Failed: "+error.message)
+alert("Submission Failed")
 
 }else{
 
@@ -406,7 +442,7 @@ document.getElementById("nextBtn").disabled=false
 
 }
 
-}
+ }
 
 /* Next Round */
 
