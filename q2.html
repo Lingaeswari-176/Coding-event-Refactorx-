@@ -430,8 +430,8 @@ let q2=document.getElementById("q2").value
 let out1=document.getElementById("q1_output").innerText
 let out2=document.getElementById("q2_output").innerText
 
-let correct1=checkAnswer(out1,"3")
-let correct2=checkAnswer(out2,"142")
+let correct1=document.getElementById("q1_output").dataset.result==="true"
+let correct2=document.getElementById("q2_output").dataset.result==="true"
 
 alert("Q1 "+(correct1?"Correct":"Wrong"))
 alert("Q2 "+(correct2?"Correct":"Wrong"))
