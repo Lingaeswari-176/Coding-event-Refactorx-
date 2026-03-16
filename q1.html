@@ -1,20 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>RefactorX - Round 1</title>
 
-<!-- Python Engine -->
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
-
-/* ===== BODY ===== */
 
 body{
 margin:0;
@@ -31,28 +24,17 @@ background-position:center;
 color:#cbd5f5;
 }
 
-/* PAGE */
-
 .page{
 max-width:900px;
 margin:auto;
 }
 
-/* TITLE */
-
 h2{
 text-align:center;
-
 background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
 -webkit-background-clip:text;
 color:transparent;
-
-text-shadow:
-0 0 15px #8b5cf6,
-0 0 30px #ec4899;
 }
-
-/* TIMER */
 
 .timer{
 font-weight:bold;
@@ -60,140 +42,53 @@ font-size:18px;
 color:#ec4899;
 }
 
-/* QUESTION BOX */
-
 .problem-box{
-
 background:rgba(15,23,42,0.85);
-
 padding:25px;
-
 border-radius:12px;
-
 border:1px solid #8b5cf6;
-
-box-shadow:
-0 0 20px rgba(139,92,246,0.35);
-
 margin-bottom:25px;
-
 }
-
-/* CODE BLOCK */
 
 pre{
-
 background:#020617;
-
 color:#60a5fa;
-
 padding:15px;
-
 border-radius:8px;
-
 overflow-x:auto;
-
-border-left:4px solid #8b5cf6;
-
 }
-
-/* TEXTAREA */
 
 textarea{
-
 width:100%;
 height:150px;
-
 background:#020617;
-
 color:#e2e8f0;
-
 border:1px solid #8b5cf6;
-
 border-radius:6px;
-
 padding:10px;
-
 font-family:monospace;
-
 margin-top:10px;
-
 }
-
-/* BUTTONS */
 
 button{
-
 padding:10px 15px;
-
 border-radius:6px;
-
 cursor:pointer;
-
 font-weight:bold;
-
 border:1px solid #8b5cf6;
-
 background:transparent;
-
 color:white;
-
 margin-top:10px;
-
 }
-
-/* RUN BUTTON */
-
-.runBtn:hover{
-
-background:#8b5cf6;
-
-box-shadow:
-0 0 15px #8b5cf6,
-0 0 25px #ec4899;
-
-}
-
-/* SUBMIT BUTTON */
-
-#submitBtn:hover{
-
-background:#3b82f6;
-
-box-shadow:
-0 0 15px #3b82f6;
-
-}
-
-/* NEXT BUTTON */
-
-#nextBtn:hover{
-
-background:#22c55e;
-
-box-shadow:
-0 0 15px #22c55e;
-
-}
-
-/* OUTPUT BOX */
 
 .output{
-
 background:#020617;
-
 color:#22c55e;
-
 padding:10px;
-
 margin-top:10px;
-
 border-radius:6px;
-
 min-height:50px;
-
 border:1px solid #8b5cf6;
-
 }
 
 </style>
@@ -204,122 +99,70 @@ border:1px solid #8b5cf6;
 <div class="page">
 
 <h2>RefactorX – Round 1</h2>
+
 <p>Refactor the code into <b>10 lines or less</b>.</p>
 
 <p><b>Time Remaining:</b>
 <span id="timer" class="timer">20:00</span>
 </p>
 
-<!-- Question 1 -->
+<!-- QUESTION 1 -->
 
 <div class="problem-box">
 
 <h3>Question 1 – Second Largest Number</h3>
 
-<pre>
-n = 6
-numbers = [5,2,8,3,7]
-i = 0
-while i < n:
- value = int(input())
- numbers.append(value)
- i = i + 1
-
-largest = numbers[0]
-
-for num in numbers:
- if num > largest:
-  largest = num
-
-second = None
-
-for num in numbers:
- if num != largest:
-  if second is None or num > second:
-   second = num
-
-print(second)
-</pre>
+<p>Input numbers: <b>5 2 8 3 7</b></p>
 
 <textarea id="q1"></textarea>
-<button class="runBtn" onclick="runCode('q1')">Run Code</button>
+
+<button onclick="runCode('q1')">Run Code</button>
+
 <div id="q1_output" class="output"></div>
 
 </div>
 
-<!-- Question 2 -->
+<!-- QUESTION 2 -->
 
 <div class="problem-box">
 
 <h3>Question 2 – Count Vowels</h3>
 
-<pre>
-text = "programming"
-
-count = 0
-
-vowels = ['a','e','i','o','u','A','E','I','O','U']
-
-i = 0
-
-while i < len(text):
- ch = text[i]
- if ch in vowels:
-  count = count + 1
- i = i + 1
-
-print(count)
-</pre>
+<p>Input text: <b>programming</b></p>
 
 <textarea id="q2"></textarea>
-<button class="runBtn" onclick="runCode('q2')">Run Code</button>
+
+<button onclick="runCode('q2')">Run Code</button>
+
 <div id="q2_output" class="output"></div>
 
 </div>
 
-<!-- Question 3 -->
+<!-- QUESTION 3 -->
 
 <div class="problem-box">
 
 <h3>Question 3 – Most Frequent Word</h3>
 
-<pre>
-
-words = "apple banana apple orange apple".split()
-
-max_count = 0
-result = ""
-
-for word in words:
-    count = 0
-    for w in words:
-        if w == word:
-            count = count + 1
-
-    if count > max_count:
-        max_count = count
-        result = word
-
-print(result)
-</pre>
+<p>Sentence: <b>apple banana apple orange apple</b></p>
 
 <textarea id="q3"></textarea>
-<button class="runBtn" onclick="runCode('q3')">Run Code</button>
+
+<button onclick="runCode('q3')">Run Code</button>
+
 <div id="q3_output" class="output"></div>
 
 </div>
 
-<button id="submitBtn" onclick="submitCode()">Submit Round</button>
+<button onclick="submitCode()">Submit Round</button>
 
-<button id="nextBtn" onclick="goNext()" disabled>
-Next Round
-</button>
+<button id="nextBtn" onclick="goNext()" disabled>Next Round</button>
 
 </div>
 
 <script>
 
-/* Python Engine */
+/* PYTHON ENGINE */
 
 let pyodide;
 
@@ -328,6 +171,8 @@ pyodide = await loadPyodide();
 }
 
 loadPython();
+
+
 /* EXPECTED OUTPUTS */
 
 const expected={
@@ -340,10 +185,11 @@ q3:"apple"
 /* FIXED INPUTS */
 
 const inputs={
-q1:StringIO("5\n2\n8\n3\n7"),
+q1:"5\n2\n8\n3\n7",
 q2:"programming",
 q3:"apple banana apple orange apple"
 };
+
 
 /* RUN CODE */
 
@@ -371,6 +217,7 @@ output=output.trim()
 let box=document.getElementById(id+"_output")
 
 box.innerText="Output: "+output
+
 if(output===expected[id]){
 
 box.innerText+="\n\n✅ Correct Answer"
@@ -391,17 +238,19 @@ document.getElementById(id+"_output").innerText="Error:\n"+err
 }
 
 }
- 
-/* Supabase Setup */
+
+
+/* SUPABASE */
 
 const { createClient } = supabase;
 
-const supabaseClient = createClient(
+const supabaseClient=createClient(
 "https://uziujuuyuaylhqokqdup.supabase.co",
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aXVqdXV5dWF5bGhxb2txZHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDUxNzcsImV4cCI6MjA4ODgyMTE3N30.jIkvmTnvO6TyTjaluE-DLQx336aGQQ6GFZCzB36ybBQ"
+"YOUR_ANON_KEY"
 );
 
-/* Submit */
+
+/* SUBMIT */
 
 async function submitCode(){
 
@@ -429,6 +278,7 @@ timestamp:new Date().toLocaleString()
 }])
 
 if(error){
+
 alert("Submission Failed")
 
 }else{
@@ -441,9 +291,10 @@ document.getElementById("nextBtn").disabled=false
 
 }
 
- }
+}
 
-/* Next Round */
+
+/* NEXT ROUND */
 
 function goNext(){
 
@@ -459,22 +310,23 @@ alert("Complete Round 1 first")
 
 }
 
-/* Timer */
+
+/* TIMER */
 
 function startTimer(minutes){
 
-let savedTime = localStorage.getItem("round1_time")
+let saved=localStorage.getItem("round1_time")
 
-let time = savedTime ? parseInt(savedTime) : minutes*60
+let time=saved?parseInt(saved):minutes*60
 
-const timer = setInterval(function(){
+const timer=setInterval(function(){
 
-let m = Math.floor(time/60)
-let s = time%60
+let m=Math.floor(time/60)
+let s=time%60
 
-if(s<10) s="0"+s
+if(s<10)s="0"+s
 
-document.getElementById("timer").textContent = m+":"+s
+document.getElementById("timer").textContent=m+":"+s
 
 time--
 
@@ -487,8 +339,6 @@ clearInterval(timer)
 alert("Time Over")
 
 submitCode()
-
-localStorage.setItem("round1_complete","yes")
 
 document.getElementById("nextBtn").disabled=false
 
@@ -504,5 +354,3 @@ startTimer(20)
 
 </body>
 </html>
-
-
