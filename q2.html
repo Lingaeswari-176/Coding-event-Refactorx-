@@ -1,31 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>RefactorX - Final Round</title>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
-/* BODY */
-
 body{
 margin:0;
 font-family:"JetBrains Mono", monospace;
-
 background-image:
 linear-gradient(rgba(2,6,23,0.9),rgba(2,6,23,0.9)),
 url("IMG-20260130-WA0011.jpg");
-
 background-size:cover;
 background-position:center;
-
 color:#cbd5f5;
 }
-
-/* PAGE */
 
 .page{
 max-width:950px;
@@ -33,21 +28,13 @@ margin:auto;
 padding:30px;
 }
 
-/* TITLE */
-
 h2{
 text-align:center;
-
 background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
 -webkit-background-clip:text;
 color:transparent;
-
-text-shadow:
-0 0 15px #8b5cf6,
-0 0 30px #ec4899;
+text-shadow:0 0 15px #8b5cf6,0 0 30px #ec4899;
 }
-
-/* TIMER */
 
 .timer{
 font-size:20px;
@@ -55,165 +42,91 @@ color:#ec4899;
 font-weight:bold;
 }
 
-/* BOX */
-
 .problem-box{
-
 background:rgba(15,23,42,0.8);
-
 border:1px solid #8b5cf6;
-
 padding:25px;
 border-radius:12px;
-
 margin-bottom:30px;
-
-box-shadow:
-0 0 20px rgba(139,92,246,0.4);
+box-shadow:0 0 20px rgba(139,92,246,0.4);
 }
-
-/* CODE */
 
 pre{
-
 background:#020617;
-
 color:#60a5fa;
-
 padding:15px;
-
 border-radius:8px;
-
 overflow-x:auto;
-
 border-left:4px solid #8b5cf6;
-
 }
-
-/* TEXTAREA */
 
 textarea{
-
 width:100%;
 height:150px;
-
 background:#020617;
-
 color:#e2e8f0;
-
 border:1px solid #8b5cf6;
-
 border-radius:6px;
-
 padding:10px;
-
 font-family:monospace;
-
 margin-top:10px;
-
 }
 
-/* BUTTON */
-
 button{
-
 background:transparent;
-
 border:1px solid #8b5cf6;
-
 color:white;
-
 padding:10px 18px;
-
 border-radius:6px;
-
 cursor:pointer;
-
 margin-top:10px;
-
 }
 
 button:hover{
-
 background:#8b5cf6;
-
-box-shadow:
-0 0 15px #8b5cf6,
-0 0 25px #ec4899;
-
+box-shadow:0 0 15px #8b5cf6,0 0 25px #ec4899;
 }
-
-/* OUTPUT */
 
 .output{
-
 background:#020617;
-
 color:#22c55e;
-
 padding:10px;
-
 border-radius:5px;
-
 margin-top:10px;
-
 min-height:40px;
-
 }
 
-/* ACCESS SCREEN */
-
 #accessBox{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 background:#020617;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 flex-direction:column;
-
 }
 
 #accessBox input{
-
 padding:10px;
-
 border-radius:6px;
-
 border:1px solid #8b5cf6;
-
 margin-top:10px;
-
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- ACCESS CODE SCREEN -->
-
 <div id="accessBox">
-
 <h2>Enter Round 2 Access Code</h2>
-
 <input id="accessInput" placeholder="Access Code">
-
 <button onclick="checkAccess()">Enter</button>
-
 <p id="accessMsg"></p>
-
 </div>
 
 <div class="page" id="mainPage" style="display:none">
@@ -224,15 +137,11 @@ margin-top:10px;
 
 <p>Time Remaining: <span id="timer" class="timer">30:00</span></p>
 
-<!-- QUESTION 1 -->
-
 <div class="problem-box">
 
 <h3>Question 1 – Longest Substring</h3>
 
 <pre>
-# Longest Substring Without Repeating Characters
-
 def longestSubstring(s):
 
     max_len = 0
@@ -244,9 +153,7 @@ def longestSubstring(s):
 
             if s[j] in temp:
                 break
-
             else:
-
                 temp = temp + s[j]
 
                 if len(temp) > max_len:
@@ -254,9 +161,7 @@ def longestSubstring(s):
 
     return max_len
 
-
 text = "abcabcbb"
-
 print(longestSubstring(text))
 </pre>
 
@@ -268,16 +173,11 @@ print(longestSubstring(text))
 
 </div>
 
-<!-- QUESTION 2 -->
-
 <div class="problem-box">
 
 <h3>Question 2 – Job Scheduling Profit</h3>
 
 <pre>
-
-# Job Scheduling to Maximize Profit
-
 def schedule(jobs):
 
     total = 0
@@ -298,26 +198,21 @@ def schedule(jobs):
         d = jobs[i][1]
 
         while d > 0:
-
             if slots[d - 1] == -1:
-
                 slots[d - 1] = jobs[i][0]
-
                 total = total + jobs[i][2]
-
                 break
 
             d = d - 1
 
     return total
 
-
 jobs = [
-    ('A', 2, 100),
-    ('B', 1, 19),
-    ('C', 2, 27),
-    ('D', 1, 25),
-    ('E', 3, 15)
+('A',2,100),
+('B',1,19),
+('C',2,27),
+('D',1,25),
+('E',3,15)
 ]
 
 print(schedule(jobs))
@@ -337,8 +232,6 @@ print(schedule(jobs))
 
 <script>
 
-/* ACCESS CODE */
-
 const ACCESS_CODE="REFX2026";
 
 function checkAccess(){
@@ -346,43 +239,30 @@ function checkAccess(){
 let code=document.getElementById("accessInput").value;
 
 if(code===ACCESS_CODE){
-
 document.getElementById("accessBox").style.display="none"
-
 document.getElementById("mainPage").style.display="block"
-
 }else{
-
 document.getElementById("accessMsg").innerText="Wrong Code"
-
 }
 
 }
-
-/* PYTHON ENGINE */
 
 let pyodide;
 
 async function loadPython(){
-
 pyodide=await loadPyodide();
-
 }
 
 loadPython();
 
-/* Expected Outputs */
-
-const expectedOutputs = {
-q1: "3",
-q2: "142"
+const expectedOutputs={
+q1:"3",
+q2:"142"
 };
-
-/* RUN CODE */
 
 async function runCode(id){
 
-let code = document.getElementById(id).value;
+let code=document.getElementById(id).value;
 
 try{
 
@@ -394,40 +274,35 @@ sys.stdout = StringIO()
 
 await pyodide.runPythonAsync(code)
 
-let output = await pyodide.runPythonAsync(`
+let output=await pyodide.runPythonAsync(`
 sys.stdout.getvalue()
 `)
 
-output = output.trim()
+output=output.trim()
 
-let box = document.getElementById(id+"_output")
+let box=document.getElementById(id+"_output")
 
-box.innerText = "Output: " + output
+box.innerText="Output: "+output
 
-/* CHECK ANSWER */
+if(output===expectedOutputs[id]){
 
-if(output === expectedOutputs[id]){
-
-box.innerText += "\n\n✅ Correct Answer"
-box.dataset.result = "true"
+box.innerText+="\n\n✅ Correct Answer"
+box.dataset.result="true"
 
 }else{
 
-box.innerText += "\n\n❌ Wrong Answer"
-box.dataset.result = "false"
+box.innerText+="\n\n❌ Wrong Answer"
+box.dataset.result="false"
 
 }
 
 }catch(err){
 
-document.getElementById(id+"_output").innerText = "Error:\n"+err
+document.getElementById(id+"_output").innerText="Error:\n"+err
 
 }
 
 }
-
-
-/* SUPABASE */
 
 const { createClient } = supabase;
 
@@ -436,8 +311,6 @@ const supabaseClient=createClient(
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aXVqdXV5dWF5bGhxb2txZHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDUxNzcsImV4cCI6MjA4ODgyMTE3N30.jIkvmTnvO6TyTjaluE-DLQx336aGQQ6GFZCzB36ybBQ"
 );
 
-/* SUBMIT */
-
 async function submitCode(){
 
 let team=prompt("Enter Team Name")
@@ -445,36 +318,35 @@ let team=prompt("Enter Team Name")
 let q1=document.getElementById("q1").value
 let q2=document.getElementById("q2").value
 
-let out1=document.getElementById("q1_result").innerText
-let out2=document.getElementById("q2_result").innerText
+let out1=document.getElementById("q1_output")
+let out2=document.getElementById("q2_output")
 
-let correct1 =
-document.getElementById("q1_result").dataset.result === "true"
+let correct1=out1.dataset.result==="true"
+let correct2=out2.dataset.result==="true"
 
-let correct2 =
-document.getElementById("q2_result").dataset.result === "true"
+if(out1.dataset.result===undefined || out2.dataset.result===undefined){
+alert("Run both codes before submitting")
+return
+}
 
-alert("Q1 "+(correct1?"Correct":"Wrong"))
-alert("Q2 "+(correct2?"Correct":"Wrong"))
-
-await supabaseClient
+const {data,error}=await supabaseClient
 .from("submissions_round2")
 .insert([{
-
 team_name:team,
 q1:q1,
 q2:q2,
 q1_result:correct1,
 q2_result:correct2,
 timestamp:new Date().toLocaleString()
-
 }])
 
-alert("Submission Saved")
-
+if(error){
+alert("Database Error: "+error.message)
+}else{
+alert("Submission Saved Successfully")
 }
 
-/* TIMER */
+}
 
 function startTimer(minutes){
 
