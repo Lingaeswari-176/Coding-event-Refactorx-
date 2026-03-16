@@ -112,7 +112,27 @@ border:1px solid #8b5cf6;
 
 <h3>Question 1 – Second Largest Number</h3>
 
-<p>Input numbers: <b>5 2 8 3 7</b></p>
+<pre>
+nums = []
+nums.append(5)
+nums.append(2)
+nums.append(8)
+nums.append(3)
+nums.append(7)
+
+largest = -999
+second = -999
+
+for i in nums:
+    if i > largest:
+        second = largest
+        largest = i
+    else:
+        if i > second and i != largest:
+            second = i
+
+print(second)
+</pre>
 
 <textarea id="q1"></textarea>
 
@@ -122,13 +142,32 @@ border:1px solid #8b5cf6;
 
 </div>
 
+
 <!-- QUESTION 2 -->
 
 <div class="problem-box">
 
 <h3>Question 2 – Count Vowels</h3>
 
-<p>Input text: <b>programming</b></p>
+<pre>
+text = "programming"
+
+count = 0
+
+for ch in text:
+    if ch == 'a':
+        count = count + 1
+    elif ch == 'e':
+        count = count + 1
+    elif ch == 'i':
+        count = count + 1
+    elif ch == 'o':
+        count = count + 1
+    elif ch == 'u':
+        count = count + 1
+
+print(count)
+</pre>
 
 <textarea id="q2"></textarea>
 
@@ -138,13 +177,31 @@ border:1px solid #8b5cf6;
 
 </div>
 
+
 <!-- QUESTION 3 -->
 
 <div class="problem-box">
 
 <h3>Question 3 – Most Frequent Word</h3>
 
-<p>Sentence: <b>apple banana apple orange apple</b></p>
+<pre>
+words = "apple banana apple orange apple".split()
+
+max_count = 0
+result = ""
+
+for word in words:
+    count = 0
+    for w in words:
+        if w == word:
+            count = count + 1
+
+    if count > max_count:
+        max_count = count
+        result = word
+
+print(result)
+</pre>
 
 <textarea id="q3"></textarea>
 
@@ -154,6 +211,7 @@ border:1px solid #8b5cf6;
 
 </div>
 
+
 <button onclick="submitCode()">Submit Round</button>
 
 <button id="nextBtn" onclick="goNext()" disabled>Next Round</button>
@@ -162,7 +220,7 @@ border:1px solid #8b5cf6;
 
 <script>
 
-/* PYTHON ENGINE */
+/* LOAD PYTHON */
 
 let pyodide;
 
@@ -173,21 +231,12 @@ pyodide = await loadPyodide();
 loadPython();
 
 
-/* EXPECTED OUTPUTS */
+/* EXPECTED OUTPUT */
 
 const expected={
 q1:"7",
 q2:"3",
 q3:"apple"
-};
-
-
-/* FIXED INPUTS */
-
-const inputs={
-q1:"5\n2\n8\n3\n7",
-q2:"programming",
-q3:"apple banana apple orange apple"
 };
 
 
@@ -202,15 +251,12 @@ try{
 await pyodide.runPythonAsync(`
 import sys
 from io import StringIO
-sys.stdin = StringIO("${inputs[id]}")
 sys.stdout = StringIO()
 `)
 
 await pyodide.runPythonAsync(code)
 
-let output=await pyodide.runPythonAsync(`
-sys.stdout.getvalue()
-`)
+let output=await pyodide.runPythonAsync(`sys.stdout.getvalue()`)
 
 output=output.trim()
 
@@ -220,20 +266,19 @@ box.innerText="Output: "+output
 
 if(output===expected[id]){
 
-box.innerText+="\n\n✅ Correct Answer"
+box.innerText+="\\n\\n✅ Correct Answer"
 box.dataset.result="true"
 
 }else{
 
-box.innerText+="\n\n❌ Wrong Answer"
+box.innerText+="\\n\\n❌ Wrong Answer"
 box.dataset.result="false"
 
 }
 
-}
-catch(err){
+}catch(err){
 
-document.getElementById(id+"_output").innerText="Error:\n"+err
+document.getElementById(id+"_output").innerText="Error:\\n"+err
 
 }
 
@@ -246,7 +291,7 @@ const { createClient } = supabase;
 
 const supabaseClient=createClient(
 "https://uziujuuyuaylhqokqdup.supabase.co",
-"YOUR_ANON_KEY"
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aXVqdXV5dWF5bGhxb2txZHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDUxNzcsImV4cCI6MjA4ODgyMTE3N30.jIkvmTnvO6TyTjaluE-DLQx336aGQQ6GFZCzB36ybBQ"
 );
 
 
