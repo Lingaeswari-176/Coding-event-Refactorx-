@@ -299,7 +299,9 @@ const supabaseClient=createClient(
 
 async function submitCode(){
 
-let team=prompt("Enter Team Name")
+let team = localStorage.getItem("team_name");
+
+
 
 let q1=document.getElementById("q1").value
 let q2=document.getElementById("q2").value
@@ -377,8 +379,17 @@ submitCode();
 },1000)
 
 }
+// Ask for team name once when the page loads
+let team = localStorage.getItem("team_name");
 
-startTimer(20)
+while (!team || team.trim() === "") {
+    team = prompt("Enter Team Name");
+}
+
+localStorage.setItem("team_name", team);
+
+startTimer(20);
+
 
 </script>
 
