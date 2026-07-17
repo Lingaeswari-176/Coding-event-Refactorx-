@@ -341,9 +341,12 @@ timestamp:new Date().toLocaleString()
 }])
 
 if(error){
-alert("Database Error: "+error.message)
+    alert("Database Error: " + error.message);
 }else{
-alert("Submission Saved Successfully")
+    alert("Submission Saved Successfully");
+
+    // Redirect to the final thank you page
+    window.location.href = "thankyou.html";
 }
 
 }
