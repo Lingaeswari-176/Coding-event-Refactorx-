@@ -214,7 +214,7 @@ print(result)
 
 <button onclick="submitCode()">Submit Round</button>
 
-<button id="nextBtn" onclick="goNext()" disabled>Next Round</button>
+
 
 </div>
 
@@ -328,32 +328,17 @@ alert("Submission Failed")
 
 }else{
 
-alert("Submission Saved")
+alert("Submission Saved");
 
-localStorage.setItem("round1_complete","yes")
+localStorage.setItem("round1_complete","yes");
 
-document.getElementById("nextBtn").disabled=false
-
+// Redirect to Round 1 Thank You page
+window.location.href = "round1-thanks.html";
 }
 
 }
 
 
-/* NEXT ROUND */
-
-function goNext(){
-
-if(localStorage.getItem("round1_complete")=="yes"){
-
-window.location.href="q2.html"
-
-}else{
-
-alert("Complete Round 1 first")
-
-}
-
-}
 
 
 /* TIMER */
@@ -383,9 +368,9 @@ clearInterval(timer)
 
 alert("Time Over")
 
-submitCode()
+submitCode();
 
-document.getElementById("nextBtn").disabled=false
+
 
 }
 
