@@ -262,11 +262,10 @@ print(intervals)
 <script>
 
 /* LOAD PYTHON */
-
+let alreadySubmitted = false;
 let pyodide;
 
-// Prevent duplicate submissions
-let alreadySubmitted = false;
+
 
 async function loadPython(){
 pyodide = await loadPyodide();
@@ -308,7 +307,10 @@ let box=document.getElementById(id+"_output")
 
 box.innerText="Output: "+output
 
-if(output===expected[id]){
+if(
+    output.replace(/\s/g,"") ===
+    expected[id].replace(/\s/g,"")
+){
 
 box.innerText+="\\n\\n✅ Correct Answer"
 box.dataset.result="true"
@@ -343,11 +345,11 @@ const supabaseClient=createClient(
 
 async function submitCode(){
 
-// Stop duplicate submissions
 if(alreadySubmitted) return;
+
 alreadySubmitted = true;
 
-let team = localStorage.getItem("team_name");
+const team = localStorage.getItem("team_name") || "Unknown Team";
     
 let q1=document.getElementById("q1").value;
 let q2=document.getElementById("q2").value;
@@ -371,9 +373,11 @@ timestamp:new Date().toLocaleString()
 }]);
 
 if(error){
-     // Allow retry if submission fails
+
     alreadySubmitted = false;
+
     alert("Submission Failed. Please check your internet connection.");
+
 
 }else{
 
@@ -429,12 +433,39 @@ function startTimer(minutes){
 // Ask for team name once when the page loads
 let team = localStorage.getItem("team_name");
 
-while (!team || team.trim() === "") {
-    team = prompt("Enter Team Name");
+if (!team) {
+
+    while (!team || team.trim() === "") {
+        team = prompt("Enter Team Name");
+    }
+
+    localStorage.setItem("team_name", team);
 }
+let warningCount = 0;
 
-localStorage.setItem("team_name", team);
+document.addEventListener("visibilitychange", () => {
 
+    if (document.hidden) {
+
+        warningCount++;
+
+        if (warningCount === 1) {
+
+            alert("⚠ Warning 1: Do not switch tabs.");
+
+        } else if (warningCount === 2) {
+
+            alert("⚠ Warning 2: Next tab switch will submit automatically.");
+
+        } else {
+
+            alert("❌ You switched tabs 3 times.\nSubmitting automatically.");
+
+            submitCode();
+        }
+    }
+
+});
 startTimer(20);
 
 
