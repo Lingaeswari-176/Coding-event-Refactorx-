@@ -273,11 +273,9 @@ pyodide=await loadPyodide();
 
 loadPython();
 
-const expectedOutputs={
-q1:"2",
-q2:"[[1,0,1],
- [0,0,0],
- [1,0,1]]"
+const expectedOutputs = {
+    q1: "2",
+    q2: "[[1, 0, 1], [0, 0, 0], [1, 0, 1]]"
 };
 
 async function runCode(id){
@@ -373,7 +371,7 @@ if(error){
     window.location.href = "thankyou.html";
 
 }
-}
+
 
 function startTimer(minutes){
 
