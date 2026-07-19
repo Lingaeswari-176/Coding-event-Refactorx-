@@ -305,7 +305,10 @@ let box=document.getElementById(id+"_output")
 
 box.innerText="Output: "+output
 
-if(output===expectedOutputs[id]){
+if (
+    output.replace(/\s/g, "") ===
+    expectedOutputs[id].replace(/\s/g, "")
+) {
 
 box.innerText+="\n\n✅ Correct Answer"
 box.dataset.result="true"
@@ -346,7 +349,7 @@ let out2=document.getElementById("q2_output")
 
 let correct1=out1.dataset.result==="true"
 let correct2=out2.dataset.result==="true"
-let alreadySubmitted = false;
+
 
 
 
