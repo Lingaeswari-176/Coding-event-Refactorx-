@@ -265,6 +265,9 @@ print(intervals)
 
 let pyodide;
 
+// Prevent duplicate submissions
+let alreadySubmitted = false;
+
 async function loadPython(){
 pyodide = await loadPyodide();
 }
@@ -340,8 +343,12 @@ const supabaseClient=createClient(
 
 async function submitCode(){
 
-let team = localStorage.getItem("team_name");
+// Stop duplicate submissions
+if(alreadySubmitted) return;
+alreadySubmitted = true;
 
+let team = localStorage.getItem("team_name");
+    
 let q1=document.getElementById("q1").value;
 let q2=document.getElementById("q2").value;
 let q3=document.getElementById("q3").value;
@@ -364,7 +371,8 @@ timestamp:new Date().toLocaleString()
 }]);
 
 if(error){
-
+     // Allow retry if submission fails
+    alreadySubmitted = false;
     alert("Submission Failed. Please check your internet connection.");
 
 }else{
