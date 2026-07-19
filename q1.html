@@ -301,15 +301,13 @@ async function submitCode(){
 
 let team = localStorage.getItem("team_name");
 
+let q1=document.getElementById("q1").value;
+let q2=document.getElementById("q2").value;
+let q3=document.getElementById("q3").value;
 
-
-let q1=document.getElementById("q1").value
-let q2=document.getElementById("q2").value
-let q3=document.getElementById("q3").value
-
-let q1c=document.getElementById("q1_output").dataset.result==="true"
-let q2c=document.getElementById("q2_output").dataset.result==="true"
-let q3c=document.getElementById("q3_output").dataset.result==="true"
+let q1c=document.getElementById("q1_output").dataset.result==="true";
+let q2c=document.getElementById("q2_output").dataset.result==="true";
+let q3c=document.getElementById("q3_output").dataset.result==="true";
 
 const { error } = await supabaseClient
 .from("submissions")
@@ -322,61 +320,61 @@ q1_correct:q1c,
 q2_correct:q2c,
 q3_correct:q3c,
 timestamp:new Date().toLocaleString()
-}])
+}]);
 
 if(error){
 
-alert("Submission Failed")
+    alert("Submission Failed. Please check your internet connection.");
 
 }else{
 
-alert("Submission Saved");
+    localStorage.removeItem("round1_endTime");
+    localStorage.removeItem("team_name");
 
-localStorage.setItem("round1_complete","yes");
+    window.location.href="round1-thanks.html";
 
-// Redirect to Round 1 Thank You page
-window.location.href = "round1-thanks.html";
 }
 
+}
 }
 
 
 
 
 /* TIMER */
-
 function startTimer(minutes){
 
-let saved=localStorage.getItem("round1_time")
+    let endTime = localStorage.getItem("round1_endTime");
 
-let time=saved?parseInt(saved):minutes*60
+    if(!endTime){
+        endTime = Date.now() + (minutes * 60 * 1000);
+        localStorage.setItem("round1_endTime", endTime);
+    }
 
-const timer=setInterval(function(){
+    const timer = setInterval(function(){
 
-let m=Math.floor(time/60)
-let s=time%60
+        let remaining = Math.floor((endTime - Date.now()) / 1000);
 
-if(s<10)s="0"+s
+        if(remaining <= 0){
 
-document.getElementById("timer").textContent=m+":"+s
+            clearInterval(timer);
 
-time--
+            document.getElementById("timer").textContent="00:00";
 
-localStorage.setItem("round1_time",time)
+            submitCode();
 
-if(time<0){
+            return;
 
-clearInterval(timer)
+        }
 
-alert("Time Over")
+        let m = Math.floor(remaining / 60);
+        let s = remaining % 60;
 
-submitCode();
+        if(s < 10) s = "0"+s;
 
+        document.getElementById("timer").textContent = m + ":" + s;
 
-
-}
-
-},1000)
+    },1000);
 
 }
 // Ask for team name once when the page loads
