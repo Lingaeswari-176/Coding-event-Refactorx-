@@ -332,7 +332,7 @@ const supabaseClient=createClient(
 async function submitCode(){
 if(alreadySubmitted) return;
 alreadySubmitted = true;
-let team=prompt("Enter Team Name")
+let team = localStorage.getItem("round2_team");
 
 let q1=document.getElementById("q1").value
 let q2=document.getElementById("q2").value
