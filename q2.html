@@ -139,30 +139,59 @@ margin-top:10px;
 
 <div class="problem-box">
 
-<h3>Question 1 – Longest Substring</h3>
+<h3>Question 1 – Number of Islands</h3>
+<h4>Refactor the code to count the number of islands in a grid while improving time complexity and code efficiency.</h4>    
 
 <pre>
-def longestSubstring(s):
+grid = [
+    ["1","1","0","0"],
+    ["1","0","0","1"],
+    ["0","0","1","1"],
+    ["0","0","0","0"]
+]
 
-    max_len = 0
+rows = len(grid)
+cols = len(grid[0])
 
-    for i in range(len(s)):
-        temp = ""
+count = 0
 
-        for j in range(i, len(s)):
+def mark(i, j):
 
-            if s[j] in temp:
-                break
-            else:
-                temp = temp + s[j]
+    for x in range(rows):
+        for y in range(cols):
 
-                if len(temp) > max_len:
-                    max_len = len(temp)
+            if abs(x - i) + abs(y - j) == 1:
 
-    return max_len
+                if grid[x][y] == "1":
+                    grid[x][y] = "2"
 
-text = "abcabcbb"
-print(longestSubstring(text))
+for i in range(rows):
+
+    for j in range(cols):
+
+        if grid[i][j] == "1":
+
+            count += 1
+            grid[i][j] = "2"
+
+            changed = True
+
+            while changed:
+
+                changed = False
+
+                for x in range(rows):
+                    for y in range(cols):
+
+                        if grid[x][y] == "2":
+
+                            before = str(grid)
+                            mark(x, y)
+
+                            if before != str(grid):
+                                changed = True
+
+print(count)
 </pre>
 
 <textarea id="q1"></textarea>
@@ -175,47 +204,36 @@ print(longestSubstring(text))
 
 <div class="problem-box">
 
-<h3>Question 2 – Job Scheduling Profit</h3>
+<h3>Question 2 – Set Matrix Zeroes</h3>
+<h4>Refactor the code to set the entire row and column to zero whenever a zero is found, while improving time and space complexity.</h4>    
 
 <pre>
-def schedule(jobs):
-
-    total = 0
-    maxd = 0
-
-    for i in range(len(jobs)):
-        if jobs[i][1] > maxd:
-            maxd = jobs[i][1]
-
-    slots = [-1] * maxd
-
-    for i in range(len(jobs)):
-        for j in range(i + 1, len(jobs)):
-            if jobs[i][2] < jobs[j][2]:
-                jobs[i], jobs[j] = jobs[j], jobs[i]
-
-    for i in range(len(jobs)):
-        d = jobs[i][1]
-
-        while d > 0:
-            if slots[d - 1] == -1:
-                slots[d - 1] = jobs[i][0]
-                total = total + jobs[i][2]
-                break
-
-            d = d - 1
-
-    return total
-
-jobs = [
-('A',2,100),
-('B',1,19),
-('C',2,27),
-('D',1,25),
-('E',3,15)
+matrix = [
+    [1,1,1],
+    [1,0,1],
+    [1,1,1]
 ]
 
-print(schedule(jobs))
+rows = len(matrix)
+cols = len(matrix[0])
+
+copy = []
+
+for row in matrix:
+    copy.append(row[:])
+
+for i in range(rows):
+    for j in range(cols):
+
+        if copy[i][j] == 0:
+
+            for k in range(cols):
+                matrix[i][k] = 0
+
+            for k in range(rows):
+                matrix[k][j] = 0
+
+print(matrix)
 </pre>
 
 <textarea id="q2"></textarea>
@@ -256,8 +274,10 @@ pyodide=await loadPyodide();
 loadPython();
 
 const expectedOutputs={
-q1:"3",
-q2:"142"
+q1:"2",
+q2:"[[1,0,1],
+ [0,0,0],
+ [1,0,1]]"
 };
 
 async function runCode(id){
