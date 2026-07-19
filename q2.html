@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
+
 <style>
 
 body{
@@ -124,7 +124,7 @@ margin-top:10px;
 
 <div id="accessBox">
 <h2>Enter Round 2 Access Code</h2>
-<input id="accessInput" placeholder="Access Code">
+<input type="password" id="accessInput" placeholder="Access Code">
 <button onclick="checkAccess()">Enter</button>
 <p id="accessMsg"></p>
 </div>
@@ -133,7 +133,7 @@ margin-top:10px;
 
 <h2>RefactorX – Final Round</h2>
 
-<p>Refactor the code into <b>15 lines or less</b>.</p>
+<p>Refactor the code into <b>10 lines or less</b>.</p>
 
 <p>Time Remaining: <span id="timer" class="timer">30:00</span></p>
 
@@ -266,7 +266,7 @@ document.getElementById("accessMsg").innerText="Wrong Code"
 }
 
 let pyodide;
-
+let alreadySubmitted = false;
 async function loadPython(){
 pyodide=await loadPyodide();
 }
@@ -332,7 +332,8 @@ const supabaseClient=createClient(
 );
 
 async function submitCode(){
-
+if(alreadySubmitted) return;
+alreadySubmitted = true;
 let team=prompt("Enter Team Name")
 
 let q1=document.getElementById("q1").value
@@ -344,10 +345,8 @@ let out2=document.getElementById("q2_output")
 let correct1=out1.dataset.result==="true"
 let correct2=out2.dataset.result==="true"
 
-if(out1.dataset.result===undefined || out2.dataset.result===undefined){
-alert("Run both codes before submitting")
-return
-}
+
+
 
 const {data,error}=await supabaseClient
 .from("submissions_round2")
@@ -361,46 +360,65 @@ timestamp:new Date().toLocaleString()
 }])
 
 if(error){
+
+    alreadySubmitted = false;
+
     alert("Database Error: " + error.message);
+
 }else{
-    alert("Submission Saved Successfully");
 
-    // Redirect to the final thank you page
+    localStorage.removeItem("round2_endTime");
+    localStorage.removeItem("round2_team");
+
     window.location.href = "thankyou.html";
-}
 
+}
 }
 
 function startTimer(minutes){
 
-let time=minutes*60
+    let endTime = localStorage.getItem("round2_endTime");
 
-const timer=setInterval(function(){
+    if(!endTime){
+        endTime = Date.now() + (minutes * 60 * 1000);
+        localStorage.setItem("round2_endTime", endTime);
+    }
 
-let m=Math.floor(time/60)
-let s=time%60
+    const timer = setInterval(function(){
 
-if(s<10) s="0"+s
+        let remaining = Math.floor((endTime - Date.now()) / 1000);
 
-document.getElementById("timer").textContent=m+":"+s
+        if(remaining <= 0){
 
-time--
+            clearInterval(timer);
 
-if(time<0){
+            document.getElementById("timer").textContent = "00:00";
 
-clearInterval(timer)
+            submitCode();
 
-alert("Time Over")
+            return;
 
-submitCode()
+        }
+
+        let m = Math.floor(remaining / 60);
+        let s = remaining % 60;
+
+        if(s < 10) s = "0" + s;
+
+        document.getElementById("timer").textContent = m + ":" + s;
+
+    },1000);
 
 }
+let team = localStorage.getItem("round2_team");
 
-},1000)
-
+while (!team || team.trim() === "") {
+    team = prompt("Enter Team Name");
 }
 
-startTimer(30)
+localStorage.setItem("round2_team", team);
+    
+startTimer(30);
 
 </script>
 
